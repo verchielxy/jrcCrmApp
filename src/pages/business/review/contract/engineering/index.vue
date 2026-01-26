@@ -33,7 +33,7 @@
     <up-list
         v-if="tabActive === 'list'"
         class="p10px"
-        @scroll-to-lower="loadmore"
+        @scrolltolower="loadmore"
     >
       <up-list-item class="mb10px" v-for="(item, index) in data" :key="index">
         <view class="data-item bg-white p10px radius3px">
