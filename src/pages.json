@@ -1,0 +1,197 @@
+{
+	"navigationStyle": "default",
+	"homeButton": true,
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			"^u--(.*)": "uview-plus/components/u-$1/u-$1.vue",
+			"^up-(.*)": "uview-plus/components/u-$1/u-$1.vue",
+			"^u-([^-].*)": "uview-plus/components/u-$1/u-$1.vue"
+		}
+	},
+	"pages": [
+		{
+			"path": "pages/home/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/auth/signin/index",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"app-plus": {
+					"softinputMode": "adjustResize"
+				}
+			}
+		},
+		{
+			"path": "pages/auth/signup/index",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		},
+		{
+			"path": "pages/base/profile/index",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/base/profile/edit",
+			"style": {
+				"navigationBarTitleText": "个人资料 - 编辑"
+			}
+		},
+		{
+			"path": "pages/base/profile/updatePassword",
+			"style": {
+				"navigationBarTitleText": "修改密码"
+			}
+		},
+		{
+			"path": "pages/news/index",
+			"style": {
+				"navigationBarTitleText": "资讯"
+			}
+		},
+
+		{
+			"path": "pages/business/schedule/index",
+			"style": {
+				"navigationBarTitleText": "日程管理"
+			}
+		},
+		{
+			"path": "pages/business/schedule/view",
+			"style": {
+				"navigationBarTitleText": "日程管理 - 详情"
+			}
+		},
+        {
+          "path": "pages/business/review/contract/sale/index",
+          "style": {
+            "navigationBarTitleText": "销售合同审批"
+          }
+        },
+        {
+          "path": "pages/business/review/contract/sale/view",
+          "style": {
+            "navigationBarTitleText": "工程合同审批 - 详情"
+          }
+        },
+        {
+          "path": "pages/business/review/contract/engineering/index",
+          "style": {
+            "navigationBarTitleText": "工程合同审批"
+          }
+        },
+        {
+          "path": "pages/business/review/contract/engineering/view",
+          "style": {
+            "navigationBarTitleText": "销售合同审批 - 详情"
+          }
+        },
+        {
+          "path": "pages/business/review/contract/purchase/index",
+          "style": {
+            "navigationBarTitleText": "采购合同审批"
+          }
+        },
+        {
+          "path": "pages/business/review/contract/purchase/view",
+          "style": {
+            "navigationBarTitleText": "采购合同审批 - 详情"
+          }
+        },
+        {
+          "path": "pages/business/review/technology/index",
+          "style": {
+            "navigationBarTitleText": "技术协议审批"
+          }
+        },
+        {
+          "path": "pages/business/review/technology/view",
+          "style": {
+            "navigationBarTitleText": "技术协议审批 - 详情"
+          }
+        },
+        {
+          "path": "pages/business/review/construction/index",
+          "style": {
+            "navigationBarTitleText": "施工转接审批"
+          }
+        },
+        {
+          "path": "pages/business/review/construction/view",
+          "style": {
+            "navigationBarTitleText": "施工转接审批 - 详情"
+          }
+        },
+        {
+          "path": "pages/business/review/materialApply/index",
+          "style": {
+            "navigationBarTitleText": "物料申请审批"
+          }
+        },
+        {
+          "path": "pages/business/review/materialApply/view",
+          "style": {
+            "navigationBarTitleText": "物料申请审批 - 详情"
+          }
+        },
+        {
+          "path": "pages/business/review/receipt/index",
+          "style": {
+            "navigationBarTitleText": "付款申请审批"
+          }
+        },
+        {
+          "path": "pages/business/review/receipt/view",
+          "style": {
+            "navigationBarTitleText": "付款申请审批 - 详情"
+          }
+        }
+    ],
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#1296db",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"height": "50px",
+		"fontSize": "10px",
+		"iconWidth": "24px",
+		"spacing": "3px",
+		"iconfontSrc":"static/fonts/uni.ttf",
+		"list": [
+			{
+				"pagePath": "pages/home/index",
+				"text": "首页",
+				"iconPath": "static/images/tabBar/home.png",
+				"selectedIconPath": "static/images/tabBar/home_active.png"
+			},
+			{
+				"pagePath": "pages/news/index",
+				"text": "资讯",
+				"iconPath": "static/images/tabBar/news.png",
+				"selectedIconPath": "static/images/tabBar/news_active.png"
+			},
+			{
+				"pagePath": "pages/base/profile/index",
+				"text": "我的",
+				"iconPath": "static/images/tabBar/profile.png",
+				"selectedIconPath": "static/images/tabBar/profile_active.png"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app Vue3",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"window": {
+		"backgroundColor": "#f5f5f5"
+	}
+}
