@@ -30,11 +30,12 @@
 </template>
 
 <script>
-import { defineComponent, getCurrentInstance, ref, reactive, toRef, computed, onMounted, onBeforeMount, } from 'vue';
+import { defineComponent, getCurrentInstance, ref, reactive, toRef, computed, onMounted, onBeforeMount, watch } from 'vue';
 import { upperCamelCase } from '@/utils/string';
-import {useStore} from 'vuex';
+import { useStore } from 'vuex';
 import { isNullOrUndefined } from '@/utils/tools';
-import store from '@/stores'
+import {getFileNameFromFilePath, getFileTypeFromFilePath} from "@utils/file";
+import uploadConfig from "@/config/upload";
 
 export default defineComponent({
   name: 'vTableButton',
@@ -112,6 +113,10 @@ export default defineComponent({
     onMounted(async () => {
       init();
     });
+
+    watch(list, (nowValue, prevValue) => {
+      init();
+    }, { immediate : true });
 
     return {
       isNullOrUndefined,
