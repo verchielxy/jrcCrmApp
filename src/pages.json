@@ -64,11 +64,29 @@
 			}
 		},
 		{
-			"path": "pages/business/schedule/view",
+			"path": "pages/business/schedule/create",
 			"style": {
-				"navigationBarTitleText": "日程管理 - 详情"
+				"navigationBarTitleText": "日程管理 - 创建"
 			}
 		},
+        {
+          "path": "pages/business/schedule/update",
+          "style": {
+            "navigationBarTitleText": "日程管理 - 编辑"
+          }
+        },
+        {
+          "path": "pages/business/schedule/view",
+          "style": {
+            "navigationBarTitleText": "日程管理 - 详情"
+          }
+        },
+        {
+          "path": "pages/business/schedule/flow",
+          "style": {
+            "navigationBarTitleText": "日程管理 - 日程记录"
+          }
+        },
         {
           "path": "pages/business/review/contract/sale/index",
           "style": {
