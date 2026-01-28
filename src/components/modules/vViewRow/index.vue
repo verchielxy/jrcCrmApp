@@ -32,7 +32,7 @@
 
       <up-cell :title="item.title" :title-style="{ 'width': labelWidth, 'flex': 'none' }" v-else-if="item.type === 'content'">
         <template #value>
-          <text class="right-text" v-html="formData[item.name]"></text>
+          <text class="right-text">{{ formData[item.name] }}</text>
         </template>
       </up-cell>
 
