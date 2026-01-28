@@ -170,7 +170,7 @@ export default function request(
 								}
 
 							} else {
-								console.log('没有找到dataRows，请检查format配置项', dataRows);
+								// console.log('没有找到dataRows，请检查format配置项', dataRows);
 							}
 						}
 
