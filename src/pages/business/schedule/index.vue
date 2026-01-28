@@ -1,61 +1,79 @@
 <template>
-  <up-loading-page :loading="loading" loading-text="正在加载..."></up-loading-page>
-
   <uPage>
-    <up-list class="p10px" @scrolltolower="scrolltolower">
-      <up-list-item class="mb10px" v-for="(item, index) in data" :key="index">
-        <view class="data-item bg-white radius3px" @click="handleClick(item)">
-          <view :class="['data-item-header p10px bg-info c-white', item.rankConstant ? 'bg-' + item.rankConstant.color : '']">
-            {{ item.name }}
-          </view>
-          <view class="display-flex p10px">
-            <view class="data-item-avatar">
-              <up-image :show-loading="true" shape="square" :src="$imageUrl(item.pic)" width="80px" height="80px"></up-image>
+    <up-loading-page :loading="loading" loading-text="正在加载..."></up-loading-page>
+
+    <view class="mb5px">
+      <view class="bg-white p10px">
+        <up-row :gutter="20">
+          <up-col :span="9">
+            <up-search
+                placeholder="请输入项目名称"
+                v-model="searchParams.projectName"
+                :clearabled="true"
+                @search="handleSearch"
+                @custom="handleSearch"
+            ></up-search>
+          </up-col>
+          <up-col :span="3">
+            <up-button size="small" type="primary" @click="handleCreate">创建日程</up-button>
+          </up-col>
+        </up-row>
+      </view>
+    </view>
+
+    <up-list
+        class="p10px"
+        @scrolltolower="loadmore"
+    >
+      <up-list-item class="mb10px" v-for="(item, index) in data" :key="index" @click="handleView(item)">
+        <view class="data-item bg-white p10px radius3px">
+          <view class="float-right-bottom" v-if="1 || scheduleConfig.canOperate(item, user)">
+            <view @tap.stop>
+              <up-row :gutter="5">
+                <up-col :span="6">
+                  <up-button type="primary" size="small" @click="handleUpdate(item)">编辑</up-button>
+                </up-col>
+                <up-col :span="6">
+                  <up-button type="primary" size="small" @click="handleUpdateFlow(item)">记录</up-button>
+                </up-col>
+              </up-row>
             </view>
-            <view class="pl10px" style="flex: 1;">
-              <view>设备编号：{{ item.deviceNo }}</view>
-              <view>设备类别：{{ item.cateText }}</view>
-              <view>设备品牌：{{ item.brand }}</view>
-              <view>规格型号：{{ item.spec }}</view>
-            </view>
           </view>
-          <view class="px10px mb10px">
-            功能位置：{{ item.functionAddr }}
+
+          <view class="mb10px font17px">
+            {{ scheduleConfig.title(item) }}
           </view>
-          <view>
-            <up-row align="center" style="border-top: 1px solid #eee;">
-              <up-col :span="4" style="border-right: 1px solid #eee;">
-                <view class="px2px py10px center">
-                  {{ item.levelText }}
-                </view>
-              </up-col>
-              <up-col :span="4" style="border-right: 1px solid #eee;">
-                <view class="px2px py10px center">
-                  {{ item.runningStatusText }}
-                </view>
-              </up-col>
-              <up-col :span="4">
-                <view class="px2px py10px center">
-                  {{ item.useStatusText }}
-                </view>
-              </up-col>
-            </up-row>
+
+          <view class="data-item-line">
+            <text>日程类型：</text>
+            <u-tag v-if="item.category === 'customer'" plain>{{ item.categoryText }}</u-tag>
+            <u-tag v-if="item.category === 'project'" plain type="success">{{ item.categoryText }}</u-tag>
+            <u-tag v-if="item.category === 'customize'" plain type="warning">{{ item.categoryText }}</u-tag>
+          </view>
+          <view class="data-item-line">
+            <text>日程日期：</text>{{ item.flowDate }}
+          </view>
+          <view class="data-item-line">
+            <text>日程时间：</text>{{ item.startTime }} ~ {{ item.endTime }}
+          </view>
+          <view class="data-item-line">
+            <text>创建人：</text>{{ item.createByName }}
           </view>
         </view>
       </up-list-item>
 
-      <up-list-item class="center" v-if="pagination.total === data.length">
-        没有更多了
-      </up-list-item>
+      <up-loadmore :status="pagination.status" @loadmore="loadmore" />
     </up-list>
   </uPage>
 </template>
 
 
 <script>
-import { defineComponent, getCurrentInstance, ref, reactive, toRef, computed, onMounted, onBeforeMount, onUnmounted } from 'vue';
+import {defineComponent, getCurrentInstance, ref, reactive, toRef, computed, onMounted, onBeforeMount, onUnmounted} from 'vue';
 import { useStore } from 'vuex';
 import jumpTo from '@utils/jumpTo';
+import scheduleConfig from '@/config/business/schedule';
+import authentication from '@/authentication';
 
 export default defineComponent({
   components: {
@@ -64,22 +82,34 @@ export default defineComponent({
     const { proxy } = getCurrentInstance();
     const store = useStore();
 
-    const api = proxy.$api.equipment;
+    const user = authentication.user();
+
     const loading = ref(false);
+    const api = proxy.$api.schedule;
+    const searchParams = ref({
+      projectName: undefined,
+    });
     const pagination = reactive({
       page: 1,
-      size: 10,
+      size: 5,
       total: 0,
       done: false,
-    });
-    const searchParams = reactive({
-      // status: 1,
+      status: 'loadmore',
     });
     const data = ref([]);
 
     const getData = () => {
-      loading.value = true;
-      api.get(pagination.page, pagination.size, searchParams).then((res) => {
+      // loading.value = true;
+      pagination.status = 'loading';
+
+      if (!loading.value) {
+        uni.showLoading({
+          title: '正在加载',
+          mask: true
+        });
+      }
+
+      api.get(pagination.page, pagination.size, searchParams.value).then((res) => {
         const json = res.result;
 
         if (json.records.length > 0) {
@@ -88,60 +118,109 @@ export default defineComponent({
 
         if (json.records.length >= pagination.size) {
           pagination.page ++;
-        }
-
-        if (json.records.length < pagination.size) {
+          pagination.status = 'loadmore';
+        } else if (json.records.length < pagination.size) {
           pagination.done = true;
+          pagination.status = 'nomore';
         }
 
         pagination.total = json.total;
+
+      }).catch((error) => {
+        loading.value = false;
+        pagination.status = 'loadmore';
       }).finally(() => {
         setTimeout(function () {
+          uni.hideLoading();
           loading.value = false;
         }, 500);
       });
     }
 
-    const scrolltolower = () => {
+    const loadmore = () => {
       if (!pagination.done) {
         getData();
       }
-    };
+    }
 
-    const handleClick = (item) => {
+    const onRefresh = () => {
+      pagination.page = 1;
+      pagination.done = false;
+      pagination.status = 'loadmore';
+      data.value = [];
+      getData();
+    }
+
+    const handleSearch = () => {
+      onRefresh()
+    }
+
+    const handleCreate = () => {
       jumpTo({
-        url: '/pages/equipment/view',
+        url: '/pages/business/schedule/create',
+      })
+    }
+
+    const handleUpdate = (item) => {
+      jumpTo({
+        url: '/pages/business/schedule/update',
         params: {
           id: item.id,
         }
       })
     }
 
-    const onRefresh = () => {
-      pagination.page = 1;
-      pagination.done = false;
-      data.value = [];
-      getData();
+    const handleUpdateFlow = (item) => {
+      jumpTo({
+        url: '/pages/business/schedule/flow',
+        params: {
+          id: item.id,
+        }
+      })
+    }
+
+    const handleView = (item) => {
+      jumpTo({
+        url: '/pages/business/schedule/view',
+        params: {
+          id: item.id,
+        }
+      })
     }
 
     onMounted( () => {
+      loading.value = true;
       getData();
 
-      uni.$on('refreshFromDetail', onRefresh);
+      uni.$on('refreshList', onRefresh);
+
+      uni.$on('UPDATE_LIST_ITEM', (params) => {
+        const index = data.value.findIndex(item => item.id === params.id);
+        if (index !== -1) {
+          // data.value[index] = { ...params.newData };
+          onRefresh();
+        }
+      });
     });
 
     onUnmounted(() => {
-      uni.$off('refreshFromDetail', onRefresh)
+      uni.$off('refreshList', onRefresh)
     })
 
     return {
-      api,
+      scheduleConfig,
+      user,
       loading,
-      pagination,
       searchParams,
+      pagination,
       data,
-      scrolltolower,
-      handleClick,
+      loadmore,
+      onRefresh,
+      handleSearch,
+      handleCreate,
+      handleUpdate,
+      handleUpdateFlow,
+      handleView,
     };
   },
 });
