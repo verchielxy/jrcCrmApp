@@ -11,6 +11,54 @@ const menuConfig = {
 			name: '日程管理',
 		},
 		{
+			key: '/manage/engineering',
+			name: '工程管理',
+			children: [
+				{
+					key: '/manage/engineering/support',
+					url: '/pages/business/engineering/support/index',
+					icon: 'flowsheet',
+					name: '技术支持',
+				},
+			],
+		},
+		{
+			key: '/manage/research',
+			name: '研发管理',
+			children: [
+				{
+					key: '/manage/research/support',
+					url: '/pages/business/research/support/index',
+					icon: 'flowsheet',
+					name: '技术支持',
+				},
+			],
+		},
+		{
+			key: '/manage/software',
+			name: '软件管理',
+			children: [
+				{
+					key: '/manage/software/support',
+					url: '/pages/business/software/support/index',
+					icon: 'flowsheet',
+					name: '技术支持',
+				},
+			],
+		},
+		{
+			key: '/manage/energy',
+			name: '节能管理',
+			children: [
+				{
+					key: '/manage/energy/support',
+					url: '/pages/business/energy/support/index',
+					icon: 'flowsheet',
+					name: '技术支持',
+				},
+			],
+		},
+		{
 			key: '/manage/review',
 			name: '审批管理',
 			children: [
