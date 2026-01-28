@@ -2,6 +2,10 @@
   <view>
     <template v-for="(item, index) in rows" :key="index">
       <up-form-item
+          v-if="
+            (isNullOrUndefined(item.show) ? true : item.show) &&
+            (isNullOrUndefined(item.hide) ? true : !item.hide)
+          "
           :class="'form-item-' + item.type "
           :label="item.title"
           :prop="item.name"
@@ -39,7 +43,7 @@
             :disabled="item.disabled"
         ></up-number-box>
         <up-textarea
-            v-else-if="item.type === 'textarea'"
+            v-else-if="item.type === 'textarea' || item.type ===  'editor' || item.type ===  'editorMini'"
             v-model="formData[item.name]"
             :placeholder="item.placeholder"
             :height="item.height ? item.height : 70"
@@ -70,6 +74,15 @@
           >
           </up-radio>
         </up-radio-group>
+        <up-subsection
+            v-else-if="item.type === 'radioButton'"
+            :list="item.list"
+            :fontSize="item.fontSize"
+            keyName="label"
+            mode="subsection"
+            :current="item.current"
+            @change="(index) => { radioButtonChange(item, index) }"
+        ></up-subsection>
         <up-checkbox-group
             v-else-if="item.type === 'checkbox'"
             v-model="formData[item.name]"
@@ -104,7 +117,7 @@
             @confirm="(label, key, selectItem) => { selectConfirm(item, label, key, selectItem) }"
         ></vSelect>
         <up-datetime-picker
-            v-else-if="item.type === 'date' || item.type === 'datetime' || item.type === 'year' || item.type === 'month'"
+            v-else-if="item.type === 'time' || item.type === 'date' || item.type === 'datetime' || item.type === 'year' || item.type === 'month'"
             v-model="item.tmpVlaue"
             :placeholder="item.placeholder"
             :format="item.format"
@@ -127,6 +140,44 @@
             @confirm="(value) => { upDatePickerConfirm(item, value) }"
         >
         </up-datetime-picker>
+        <view v-else-if="item.type === 'dateRange' || item.type === 'datetimeRange' || item.type === 'yearRange' || item.type === 'monthRange'">
+
+        </view>
+        <view class="full-width" v-else-if="item.type === 'timeRange'">
+          <up-datetime-picker
+              class="mb10px"
+              v-model="formData[item.names[0]]"
+              :placeholder="!isNullOrUndefined(item.placeholder[0]) ? item.placeholder[0] : null"
+              :format="item.format"
+              :mode="item.mode"
+              hasInput
+              :inputProps="{
+                border: 'surround',
+                shape: 'square',
+                inputAlign: 'left',
+                suffixIcon: 'calendar'
+              }"
+              :closeOnClickOverlay="item.closeOnClickOverlay"
+              :itemHeight="item.itemHeight"
+              @confirm="(value) => { upDatePickerRangeConfirm(item, 'start', value) }"
+          ></up-datetime-picker>
+          <up-datetime-picker
+              v-model="formData[item.names[1]]"
+              :placeholder="!isNullOrUndefined(item.placeholder[1]) ? item.placeholder[1] : null"
+              :format="item.format"
+              :mode="item.mode"
+              hasInput
+              :inputProps="{
+                border: 'surround',
+                shape: 'square',
+                inputAlign: 'left',
+                suffixIcon: 'calendar'
+              }"
+              :closeOnClickOverlay="item.closeOnClickOverlay"
+              :itemHeight="item.itemHeight"
+              @confirm="(value) => { upDatePickerRangeConfirm(item, 'end', value) }"
+          ></up-datetime-picker>
+        </view>
         <up-switch
             v-else-if="item.type === 'switch'"
             v-model="formData[item.name]"
@@ -217,19 +268,32 @@ export default defineComponent({
     const spinningTime = ref(500);
 
     const datetimeFormat = {
+      time: 'HH:mm',
       date: 'YYYY-MM-DD',
       datetime: 'YYYY-MM-DD HH:mm',
       year: 'YYYY',
       month: 'YYYY-MM',
+      timeRange: 'HH:mm',
+      dateRange: 'YYYY-MM-DD',
+      yearRange: 'YYYY',
+      monthRange: 'YYYY-MM',
     }
     const datetimeMode = {
+      time: 'time',
       date: 'date',
       datetime: 'datetime',
       year: 'year-month',
       month: 'year-month',
+      timeRange: 'time',
+      dateRange: 'date',
+      yearRange: 'year-month',
+      monthRange: 'year-month',
     }
     rows.value.map((item) => {
-      if (item.type === 'date' || item.type === 'datetime' || item.type === 'year' || item.type === 'month') {
+      if (
+          item.type === 'time' || item.type === 'date' || item.type === 'datetime'
+          || item.type === 'year' || item.type === 'month'
+      ) {
         if (isNullOrUndefined(item.format)) {
           item.format = datetimeFormat[item.type];
         }
@@ -239,9 +303,36 @@ export default defineComponent({
         if (!isNullOrUndefined(formData.value[item.name])) {
           item.tmpVlaue = dayjs(formData.value[item.name]).valueOf();
         }
+      } else if (
+          item.type === 'timeRange' || item.type === 'dateRange' || item.type === 'yearRange' || item.type === 'monthRange'
+      ) {
+        if (isNullOrUndefined(item.format)) {
+          item.format = datetimeFormat[item.type];
+        }
+        if (isNullOrUndefined(item.mode)) {
+          item.mode = datetimeMode[item.type];
+        }
+        if (!isNullOrUndefined(formData.value[item.name])) {
+          if (item.type === 'timeRange'){
+            formData.value[item.names[0]] = formData.value[item.name][0];
+            formData.value[item.names[1]] = formData.value[item.name][1];
+          } else {
+            formData.value[item.names[0]] = dayjs(formData.value[item.name][0]).valueOf();
+            formData.value[item.names[1]] = dayjs(formData.value[item.name][1]).valueOf();
+          }
+        }
       } else if (item.type === 'imageUpload') {
         if (isNullOrUndefined(item.valueSingle)) {
           item.valueSingle = false;
+        }
+      } else if (item.type === 'radioButton') {
+        item.current = 0;
+
+        if (!isNullOrUndefined(formData.value[item.name])) {
+          let index = item.list.findIndex(one => one.key === formData.value[item.name]);
+          if (index >= 0) {
+            item.current = index;
+          }
         }
       }
     })
@@ -274,9 +365,45 @@ export default defineComponent({
 
     const upDatePickerConfirm = (item, value) => {
       // console.log(value)
+      // console.log(item.tmpVlaue);
+
       item.tmpVlaue = value.value;
-      formData.value[item.name] = dayjs(value.value).format(item.format);
+
+      let formatValue;
+
+      if (item.type === 'time') {
+        formatValue = value.value;
+      } else {
+        formatValue = dayjs(value.value).format(item.format);
+      }
+
+      formData.value[item.name] = formatValue;
+
       context.emit('update:formData', formData);
+    }
+
+    const upDatePickerRangeConfirm = (item, type, value) => {
+      // console.log(value)
+      // console.log(item.tmpVlaue);
+      let formatValue;
+
+      if (item.type === 'timeRange') {
+        formatValue = value.value;
+      } else {
+        formatValue = dayjs(value.value).format(item.format);
+      }
+
+      if (type === 'start') {
+        formData.value[item.name][0] = formatValue;
+      } else {
+        formData.value[item.name][1] = formatValue;
+      }
+
+      context.emit('update:formData', formData);
+    }
+
+    const radioButtonChange = (item, index) => {
+      formData.value[item.name] = item.list[index].key;
     }
 
     const imageUploadChange = (item, file, files) => {
@@ -312,6 +439,8 @@ export default defineComponent({
       formItemRequired,
       selectConfirm,
       upDatePickerConfirm,
+      upDatePickerRangeConfirm,
+      radioButtonChange,
       imageUploadChange,
     };
   },
