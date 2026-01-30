@@ -61,6 +61,8 @@ const supportApi = {
 			formatDataKey: 'result',
 			formatAppend: {
 				showText: [
+					['headUserName', 'headUser.name'],
+					['supportUserName', 'supportUser.name'],
 				],
 				constantText: [
 					['projectTypeText', constant.BUSINESS.PROJECT.TYPE, 'projectType'],
