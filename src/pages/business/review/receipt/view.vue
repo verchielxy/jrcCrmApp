@@ -315,7 +315,10 @@ export default defineComponent({
             duration: 2000,
             success: () => {
               // 如果需要保存后返回上一页，可以在这里写逻辑
-              setTimeout(() => uni.navigateBack(), 1000);
+              setTimeout(() => {
+                uni.$emit('REFRESH_LIST');
+                uni.navigateBack();
+              }, 1000);
             }
           });
         }).catch((error) => {
