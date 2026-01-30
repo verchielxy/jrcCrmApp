@@ -1,0 +1,45 @@
+<template>
+  <blockSupportView
+      :targetId="id"
+      :api="api"
+  ></blockSupportView>
+</template>
+
+
+<script>
+import {defineComponent, getCurrentInstance, ref, reactive, toRef, computed, onMounted, onBeforeMount, onUnmounted} from 'vue';
+import { useStore } from 'vuex';
+import blockSupportView from '@/pages/acommon/support/view.vue';
+import {onLoad} from "@dcloudio/uni-app";
+
+export default defineComponent({
+  components: {
+    blockSupportView,
+  },
+  setup() {
+    const { proxy } = getCurrentInstance();
+    const store = useStore();
+
+    const id = ref();
+    const api = proxy.$api.engineeringSupport;
+
+    onMounted( () => {
+    });
+
+    onUnmounted(() => {
+    })
+
+    onLoad((options) => {
+      id.value = options.id;
+    })
+
+    return {
+      id,
+      api,
+    };
+  },
+});
+</script>
+
+<style scoped lang="less">
+</style>
