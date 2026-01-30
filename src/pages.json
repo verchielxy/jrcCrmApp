@@ -88,6 +88,78 @@
           }
         },
         {
+          "path": "pages/business/engineering/support/index",
+          "style": {
+            "navigationBarTitleText": "工程管理 - 技术支持"
+          }
+        },
+        {
+          "path": "pages/business/engineering/support/update",
+          "style": {
+            "navigationBarTitleText": "工程管理 - 技术支持 - 回复"
+          }
+        },
+        {
+          "path": "pages/business/engineering/support/view",
+          "style": {
+            "navigationBarTitleText": "工程管理 - 技术支持 - 详情"
+          }
+        },
+        {
+          "path": "pages/business/research/support/index",
+          "style": {
+            "navigationBarTitleText": "研发管理 - 技术支持"
+          }
+        },
+        {
+          "path": "pages/business/research/support/update",
+          "style": {
+            "navigationBarTitleText": "研发管理 - 技术支持 - 回复"
+          }
+        },
+        {
+          "path": "pages/business/research/support/view",
+          "style": {
+            "navigationBarTitleText": "研发管理 - 技术支持 - 详情"
+          }
+        },
+        {
+          "path": "pages/business/software/support/index",
+          "style": {
+            "navigationBarTitleText": "软件管理 - 技术支持"
+          }
+        },
+        {
+          "path": "pages/business/software/support/update",
+          "style": {
+            "navigationBarTitleText": "软件管理 - 技术支持 - 回复"
+          }
+        },
+        {
+          "path": "pages/business/software/support/view",
+          "style": {
+            "navigationBarTitleText": "软件管理 - 技术支持 - 详情"
+          }
+        },
+        {
+          "path": "pages/business/energy/support/index",
+          "style": {
+            "navigationBarTitleText": "节能管理 - 技术支持"
+          }
+        },
+        {
+          "path": "pages/business/energy/support/update",
+          "style": {
+            "navigationBarTitleText": "节能管理 - 技术支持 - 回复"
+          }
+        },
+        {
+          "path": "pages/business/energy/support/view",
+          "style": {
+            "navigationBarTitleText": "节能管理 - 技术支持 - 详情"
+          }
+        },
+        {
           "path": "pages/business/review/contract/sale/index",
           "style": {
             "navigationBarTitleText": "销售合同审批"
