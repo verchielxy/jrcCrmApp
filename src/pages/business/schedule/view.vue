@@ -25,7 +25,7 @@
 
 
 <script>
-import { defineComponent, getCurrentInstance, ref, reactive, toRef, computed, onMounted, onBeforeMount } from 'vue';
+import {defineComponent, getCurrentInstance, ref, reactive, toRef, computed, onMounted, onBeforeMount, onUnmounted} from 'vue';
 import { useStore } from 'vuex';
 import { onLoad } from '@dcloudio/uni-app';
 import scheduleConfig from '@/config/business/schedule';
@@ -92,7 +92,7 @@ export default defineComponent({
       },
     ]);
 
-    const getTarget = () => {
+    const loadTarget = () => {
       loading.value = true;
       api.view(id.value, {}).then((res) => {
         const json = res.result;
@@ -109,8 +109,11 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      getTarget();
+      loadTarget();
     });
+
+    onUnmounted(() => {
+    })
 
     onLoad((options) => {
       id.value = options.id;

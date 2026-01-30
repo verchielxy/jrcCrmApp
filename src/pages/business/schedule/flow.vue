@@ -21,7 +21,7 @@
 
 
 <script>
-import { defineComponent, getCurrentInstance, ref, reactive, toRef, computed, onMounted, onBeforeMount } from 'vue';
+import {defineComponent, getCurrentInstance, ref, reactive, toRef, computed, onMounted, onBeforeMount, onUnmounted} from 'vue';
 import { useStore } from 'vuex';
 import { onLoad } from '@dcloudio/uni-app';
 
@@ -135,6 +135,9 @@ export default defineComponent({
     onMounted(() => {
       loadTarget();
     });
+
+    onUnmounted(() => {
+    })
 
     onLoad((options) => {
       id.value = options.id;

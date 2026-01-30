@@ -6,7 +6,7 @@
 
 
 <script>
-import { defineComponent, getCurrentInstance, ref, reactive, toRef, computed, onMounted, onBeforeMount } from 'vue';
+import {defineComponent, getCurrentInstance, ref, reactive, toRef, computed, onMounted, onBeforeMount, onUnmounted} from 'vue';
 import { useStore } from 'vuex';
 import { onLoad } from '@dcloudio/uni-app';
 import blockForm from "./blockForm.vue";
@@ -23,6 +23,9 @@ export default defineComponent({
 
     onMounted(() => {
     });
+
+    onUnmounted(() => {
+    })
 
     onLoad((options) => {
       id.value = options.id;

@@ -21,7 +21,7 @@
 
 
 <script>
-import { defineComponent, getCurrentInstance, ref, reactive, toRef, computed, onMounted, onBeforeMount } from 'vue';
+import {defineComponent, getCurrentInstance, ref, reactive, toRef, computed, onMounted, onBeforeMount, onUnmounted} from 'vue';
 import { useStore } from 'vuex';
 import { onLoad } from '@dcloudio/uni-app';
 import moment from 'moment';
@@ -264,6 +264,7 @@ export default defineComponent({
           success: () => {
             // 如果需要保存后返回上一页，可以在这里写逻辑
             setTimeout(() => {
+              uni.$emit('REFRESH_LIST');
               uni.navigateBack();
               // uni.redirectTo({
               //   url: '/pages/business/schedule/index'
@@ -295,6 +296,7 @@ export default defineComponent({
           success: () => {
             // 如果需要保存后返回上一页，可以在这里写逻辑
             setTimeout(() => {
+              // uni.$emit('REFRESH_LIST');
               uni.$emit('UPDATE_LIST_ITEM', {
                 id: targetId.value,
                 newData: {
@@ -395,6 +397,9 @@ export default defineComponent({
       parentUsersGet();
       loadTarget();
     });
+
+    onUnmounted(() => {
+    })
 
     onLoad((options) => {
     })

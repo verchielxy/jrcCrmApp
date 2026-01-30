@@ -2,68 +2,68 @@
   <uPage>
     <up-loading-page :loading="loading" loading-text="正在加载..."></up-loading-page>
 
-    <view class="mb5px">
-      <view class="bg-white p10px">
-        <up-row :gutter="20">
-          <up-col :span="9">
-            <up-search
-                placeholder="请输入项目名称"
-                v-model="searchParams.projectName"
-                :clearabled="true"
-                @search="handleSearch"
-                @custom="handleSearch"
-            ></up-search>
-          </up-col>
-          <up-col :span="3">
-            <up-button size="small" type="primary" @click="handleCreate">创建日程</up-button>
-          </up-col>
-        </up-row>
-      </view>
+    <view class="search-box bg-white p10px">
+      <up-row :gutter="20">
+        <up-col :span="9">
+          <up-search
+              placeholder="请输入项目名称"
+              v-model="searchParams.projectName"
+              :clearabled="true"
+              @search="handleSearch"
+              @custom="handleSearch"
+          ></up-search>
+        </up-col>
+        <up-col :span="3">
+          <up-button size="small" type="primary" @click="handleCreate">创建日程</up-button>
+        </up-col>
+      </up-row>
     </view>
 
-    <up-list
-        class="p10px"
-        @scrolltolower="loadmore"
-    >
-      <up-list-item class="mb10px" v-for="(item, index) in data" :key="index" @click="handleView(item)">
-        <view class="data-item bg-white p10px radius3px">
-          <view class="float-right-bottom" v-if="1 || scheduleConfig.canOperate(item, user)">
-            <view @tap.stop>
-              <up-row :gutter="5">
-                <up-col :span="6">
-                  <up-button type="primary" size="small" @click="handleUpdate(item)">编辑</up-button>
-                </up-col>
-                <up-col :span="6">
-                  <up-button type="primary" size="small" @click="handleUpdateFlow(item)">记录</up-button>
-                </up-col>
-              </up-row>
+    <view class="list-box p10px">
+      <up-list
+          height="100%"
+          @scrolltolower="loadmore"
+      >
+        <up-list-item class="mb10px" v-for="(item, index) in data" :key="index" @click="handleView(item)">
+          <view class="data-item bg-white p10px radius3px">
+            <view class="float-right-bottom" v-if="scheduleConfig.canOperate(item, user)">
+              <view @tap.stop>
+                <up-row :gutter="5">
+                  <up-col :span="6">
+                    <up-button type="primary" size="small" @click="handleUpdate(item)">编辑</up-button>
+                  </up-col>
+                  <up-col :span="6">
+                    <up-button type="primary" size="small" @click="handleUpdateFlow(item)">记录</up-button>
+                  </up-col>
+                </up-row>
+              </view>
+            </view>
+
+            <view class="mb10px font17px">
+              {{ scheduleConfig.title(item) }}
+            </view>
+
+            <view class="data-item-line">
+              <text>日程类型：</text>
+              <u-tag v-if="item.category === 'customer'" plain>{{ item.categoryText }}</u-tag>
+              <u-tag v-if="item.category === 'project'" plain type="success">{{ item.categoryText }}</u-tag>
+              <u-tag v-if="item.category === 'customize'" plain type="warning">{{ item.categoryText }}</u-tag>
+            </view>
+            <view class="data-item-line">
+              <text>日程日期：</text>{{ item.flowDate }}
+            </view>
+            <view class="data-item-line">
+              <text>日程时间：</text>{{ item.startTime }} ~ {{ item.endTime }}
+            </view>
+            <view class="data-item-line">
+              <text>创建人：</text>{{ item.createByName }}
             </view>
           </view>
+        </up-list-item>
 
-          <view class="mb10px font17px">
-            {{ scheduleConfig.title(item) }}
-          </view>
-
-          <view class="data-item-line">
-            <text>日程类型：</text>
-            <u-tag v-if="item.category === 'customer'" plain>{{ item.categoryText }}</u-tag>
-            <u-tag v-if="item.category === 'project'" plain type="success">{{ item.categoryText }}</u-tag>
-            <u-tag v-if="item.category === 'customize'" plain type="warning">{{ item.categoryText }}</u-tag>
-          </view>
-          <view class="data-item-line">
-            <text>日程日期：</text>{{ item.flowDate }}
-          </view>
-          <view class="data-item-line">
-            <text>日程时间：</text>{{ item.startTime }} ~ {{ item.endTime }}
-          </view>
-          <view class="data-item-line">
-            <text>创建人：</text>{{ item.createByName }}
-          </view>
-        </view>
-      </up-list-item>
-
-      <up-loadmore :status="pagination.status" @loadmore="loadmore" />
-    </up-list>
+        <up-loadmore class="py20px" :status="pagination.status" @loadmore="loadmore" />
+      </up-list>
+    </view>
   </uPage>
 </template>
 
@@ -192,7 +192,7 @@ export default defineComponent({
       loading.value = true;
       getData();
 
-      uni.$on('refreshList', onRefresh);
+      uni.$on('REFRESH_LIST', onRefresh);
 
       uni.$on('UPDATE_LIST_ITEM', (params) => {
         const index = data.value.findIndex(item => item.id === params.id);
@@ -204,7 +204,9 @@ export default defineComponent({
     });
 
     onUnmounted(() => {
-      uni.$off('refreshList', onRefresh)
+      uni.$off('REFRESH_LIST', onRefresh);
+
+      uni.$off('UPDATE_LIST_ITEM');
     })
 
     return {
