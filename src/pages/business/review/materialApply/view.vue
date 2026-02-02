@@ -78,6 +78,7 @@
 import { defineComponent, getCurrentInstance, ref, reactive, toRef, computed, onMounted, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import { onLoad } from '@dcloudio/uni-app';
+import dataTableColumns from './data/tableColumns';
 
 export default defineComponent({
   components: {
@@ -92,57 +93,6 @@ export default defineComponent({
     const api = proxy.$api.reviewMaterialApply;
     const loading = ref(false);
     const target = ref();
-    const rejectModalShow = ref(false);
-    const rejectReason = ref('');
-    const tableColumns = ref([
-      {
-        title: '产品名称',
-        key: 'goodsName',
-        width: 200,
-      },
-      {
-        title: '规格参数',
-        key: 'goodsSpec',
-        width: 200,
-      },
-      {
-        title: '产品型号',
-        key: 'goodsModel',
-        width: 200,
-      },
-      {
-        title: '数量',
-        key: 'amount',
-        width: 60,
-      },
-      {
-        title: '比价产品1',
-        key: 'recommend1',
-        width: 100,
-      },
-      {
-        title: '比价产品2',
-        key: 'recommend2',
-        width: 100,
-      },
-      {
-        title: '备注',
-        key: 'remarks',
-        width: 150,
-      },
-      {
-        title: '创建人',
-        key: 'itemCreateByName',
-        width: 80,
-      },
-      {
-        title: '创建时间',
-        key: 'itemCreateTime',
-        width: 140,
-      },
-    ]);
-    const tableData = ref([]);
-
     const viewRows = ref([
       {
         title: '单据编号',
@@ -200,6 +150,11 @@ export default defineComponent({
         name: 'address',
       },
     ]);
+
+    const tableColumns = ref(dataTableColumns);
+    const tableData = ref([]);
+    const rejectModalShow = ref(false);
+    const rejectReason = ref('');
 
     const getTarget = () => {
       loading.value = true;
@@ -298,11 +253,11 @@ export default defineComponent({
       api,
       loading,
       target,
-      rejectReason,
-      rejectModalShow,
+      viewRows,
       tableColumns,
       tableData,
-      viewRows,
+      rejectReason,
+      rejectModalShow,
       handleReview,
       handleAgree,
       handleDisagree,
