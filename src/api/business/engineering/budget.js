@@ -1,5 +1,6 @@
 import request from '@/plugins/request/index';
 import serverUrl from '@api/serviceUrl';
+import constant from "@/constant";
 
 const apiVersion = '/api/v1/engineer/budget';
 
@@ -16,6 +17,17 @@ const budgetApi = {
 			formatAppend: {
 				key: 'id',
 				serial: true,
+				showText: [
+					['customName', 'custom.name'],
+				],
+				constantText: [
+					['projectTypeText', constant.BUSINESS.PROJECT.TYPE, 'projectType'],
+					['projectGradeText', constant.BUSINESS.PROJECT.GRADE, 'projectGrade'],
+					['projectStatusText', constant.BUSINESS.PROJECT.STATUS, 'projectStatus'],
+				],
+				constant: [
+					['projectStatusConstant', constant.BUSINESS.PROJECT.STATUS, 'projectStatus'],
+				],
 			},
 		});
 	},
@@ -28,6 +40,15 @@ const budgetApi = {
 			},
 			data: {
 				...searchParams,
+			},
+			formatDataKey: 'result',
+			formatAppend: {
+				showText: [
+				],
+				constantText: [
+				],
+				constant: [
+				],
 			},
 		});
 	},

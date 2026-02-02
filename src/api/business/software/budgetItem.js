@@ -1,5 +1,6 @@
 import request from '@/plugins/request/index';
 import serverUrl from '@api/serviceUrl';
+import constant from "@/constant";
 
 const apiVersion = '/api/v1/soft/budget/{budgetId}/budgetItem';
 
@@ -19,6 +20,14 @@ const budgetItemApi = {
 			formatAppend: {
 				key: 'id',
 				serial: true,
+				showText: [
+					['createByName', 'createBy.name'],
+					['offerByName', 'offerBy.name'],
+				],
+				constantText: [
+				],
+				constant: [
+				],
 			},
 		});
 	},
@@ -57,6 +66,15 @@ const budgetItemApi = {
 			},
 			data: {
 				...searchParams,
+			},
+			formatDataKey: 'result',
+			formatAppend: {
+				showText: [
+				],
+				constantText: [
+				],
+				constant: [
+				],
 			},
 		});
 	},
