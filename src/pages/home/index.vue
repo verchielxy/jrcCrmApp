@@ -1,15 +1,22 @@
 <template>
-  <uPage>
-    <view class="section">
-      <view class="section-title p10px bg-info c-white">
-        我的应用
+  <uContainer class="p10px" style="padding-bottom: 50px;">
+    <view class="section" v-if="menus.main && menus.main.length > 0">
+      <view class="section-title">
+        <u-title>我的应用</u-title>
       </view>
 
       <view class="menu-ul">
         <view class="menu-li" v-for="item in menus.main">
-          <view class="menu-block center" @click="handleClick(item)">
-            <MaterialSymbol class="middle-icon mt20px c-success" :name="item.icon" :size="40" type="sharp"></MaterialSymbol>
-            <view class="title mt5px">
+          <view class="menu-item center" @click="handleClick(item)">
+            <view class="menu-avatar-box mb5px">
+              <view class="menu-image center" v-if="item.image">
+                <up-image :src="item.image" width="100%" height="100%" mode="aspectFill" :lazy-load="true"></up-image>
+              </view>
+              <view clas="menu-icon" v-else>
+                <MaterialSymbol class="middle-icon c-success" :name="item.icon" :size="40" type="sharp" />
+              </view>
+            </view>
+            <view class="title">
               {{ item.name }}
             </view>
           </view>
@@ -18,22 +25,29 @@
     </view>
 
     <view class="section" v-for="menu in menus.list">
-      <view class="section-title p10px bg-info c-white">
-        {{ menu.title }}
+      <view class="section-title">
+        <u-title>{{ menu.title }}</u-title>
       </view>
 
       <view class="menu-ul">
         <view class="menu-li" v-for="item in menu.children">
-          <view class="menu-block center" @click="handleClick(item)">
-            <MaterialSymbol class="middle-icon mt20px c-success" :name="item.icon" :size="40" type="sharp"></MaterialSymbol>
-            <view class="title mt5px">
+          <view class="menu-item center" @click="handleClick(item)">
+            <view class="menu-avatar-box mb5px">
+              <view class="menu-image center" v-if="item.image">
+                <up-image :src="item.image" width="100%" height="100%" mode="aspectFill" :lazy-load="true"></up-image>
+              </view>
+              <view clas="menu-icon" v-else>
+                <MaterialSymbol class="middle-icon c-success" :name="item.icon" :size="50" type="sharp" />
+              </view>
+            </view>
+            <view class="title">
               {{ item.name }}
             </view>
           </view>
         </view>
       </view>
     </view>
-  </uPage>
+  </uContainer>
 </template>
 
 
@@ -54,105 +68,7 @@ export default defineComponent({
     const user = authentication.user();
     const menus = authentication.menus();
 
-    console.log(menus.value);
-
-    // const menus = ref([
-    //   {
-    //     title: '设备与巡检',
-    //     list: [
-    //       {
-    //         name: '设备列表',
-    //         icon: 'component_exchange',
-    //         url: '/pages/equipment/index',
-    //       },
-    //       {
-    //         name: '设备扫码',
-    //         icon: 'qr_code_scanner',
-    //         scan: true,
-    //       },
-    //       {
-    //         name: '我的巡检',
-    //         icon: 'content_paste_search',
-    //         url: '/pages/my/check/index',
-    //       },
-    //       {
-    //         name: '巡检记录',
-    //         icon: 'event_note',
-    //         url: '/pages/check/index',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     title: '保养与维修',
-    //     list: [
-    //       {
-    //         name: '我的保养',
-    //         icon: 'model_training',
-    //         url: '/pages/my/maintain/index',
-    //       },
-    //       {
-    //         name: '保养记录',
-    //         icon: 'list_alt',
-    //         url: '/pages/maintain/index',
-    //       },
-    //       {
-    //         name: '我的维修',
-    //         icon: 'handyman',
-    //         url: '/pages/my/repair/index',
-    //       },
-    //       {
-    //         name: '维修记录',
-    //         icon: 'receipt_long',
-    //         url: '/pages/repair/index',
-    //       },
-    //     ]
-    //   },
-    //   {
-    //     title: '待我审批',
-    //     list: [
-    //       {
-    //         name: '调拨转移',
-    //         icon: 'move_down',
-    //         url: '/pages/approval/changeTransfer/index',
-    //       },
-    //       {
-    //         name: '设备处置',
-    //         icon: 'move_to_inbox',
-    //         url: '/pages/approval/changeDisposal/index',
-    //       },
-    //       {
-    //         name: '设备报废',
-    //         icon: 'fmd_bad',
-    //         url: '/pages/approval/changeScrapped/index',
-    //       },
-    //       {
-    //         name: '设备变卖',
-    //         icon: 'paid',
-    //         url: '/pages/approval/changeSold/index',
-    //       },
-    //       {
-    //         name: '保养计划',
-    //         icon: 'model_training',
-    //         url: '/pages/approval/maintainPlan/index',
-    //       },
-    //       {
-    //         name: '保养工单',
-    //         icon: 'list_alt',
-    //         url: '/pages/approval/maintainWorkOrder/index',
-    //       },
-    //       {
-    //         name: '维修计划',
-    //         icon: 'handyman',
-    //         url: '/pages/approval/repairPlan/index',
-    //       },
-    //       {
-    //         name: '维修工单',
-    //         icon: 'receipt_long',
-    //         url: '/pages/approval/repairWorkOrder/index',
-    //       },
-    //     ]
-    //   },
-    // ]);
+    // console.log(menus.value);
 
     const handleClick = (item) => {
       if (item.url) {
@@ -200,29 +116,46 @@ export default defineComponent({
 
 <style scoped lang="less">
 .section {
-  .section-title {
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  margin-bottom: 10px;
 
+  .section-title {
+    padding: 10px;
   }
 }
 
 .menu-ul {
   display: flex;
   flex-wrap: wrap;
-  // justify-content: center;
   align-items: center;
-  padding: 10px;
-  padding-right: 0;
 
   .menu-li {
     width: 25%;
-    padding-right: 10px;
-    margin-bottom: 10px;
   }
 }
-.menu-block {
+.menu-item {
   background-color: #fff;
   padding: 10px;
-  padding-top: 20px;
+
+  .menu-avatar-box {
+    display: block;
+
+    .menu-image {
+      display: block;
+      margin: 0 auto;
+      width: 50px;
+      height: 50px;
+    }
+
+    .menu-icon {
+      display: block;
+      margin: 0 auto;
+      width: 50px;
+      height: 50px;
+    }
+  }
 
   .title {
     font-size: 15px;
