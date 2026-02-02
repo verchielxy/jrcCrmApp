@@ -44,10 +44,10 @@ export default defineComponent({
     const api = proxy.$api.schedule;
     const loading = ref(false);
     const target = ref();
-    const formShow = ref(targetId.value ? false : true);
     const categorys = ref(proxy.$constant.BUSINESS.SCHEDULE.CATEGORY);
     const categoryKey = ref(categorys.value[0].key);
 
+    const formShow = ref(targetId.value ? false : true);
     const formRows = ref({
       one: [
         {
