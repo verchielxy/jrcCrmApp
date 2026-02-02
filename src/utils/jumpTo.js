@@ -5,7 +5,7 @@
  * @param {Object} options.params 参数对象
  * @param {String} [options.type=navigateTo] 跳转类型：navigateTo / redirectTo / reLaunch / switchTab
  */
-export default function ({ url, params = {}, type = 'navigateTo' }) {
+export default function ({ url, params = {}, type = 'navigateTo', success }) {
 	if (!url) {
 		console.error('jumpTo 缺少 url')
 		return
@@ -26,6 +26,6 @@ export default function ({ url, params = {}, type = 'navigateTo' }) {
 	} else if (type === 'redirectTo') {
 		uni.redirectTo({ url: fullUrl })
 	} else {
-		uni.navigateTo({ url: fullUrl })
+		uni.navigateTo({ url: fullUrl, success: success, })
 	}
 }
