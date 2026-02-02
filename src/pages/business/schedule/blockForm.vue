@@ -248,7 +248,11 @@ export default defineComponent({
     }
 
     const submitAdd = () => {
-      loading.value = true;
+      uni.showLoading({
+        title: '正在提交...',
+        mask: true
+      });
+
       api.create({
         ...formData.value,
         flowType: formData.value.flowType ? formData.value.flowType : '',
@@ -257,30 +261,33 @@ export default defineComponent({
         endTime: normalizeTime(formData.value.endTime),
       }).then((res) => {
         // console.log(res);
-        uni.showToast({
-          title: '保存成功',
-          icon: 'success', // 显示绿色的勾
-          duration: 2000,
-          success: () => {
-            // 如果需要保存后返回上一页，可以在这里写逻辑
-            setTimeout(() => {
+        setTimeout(() => {
+          uni.hideLoading();
+
+          uni.showToast({
+            title: '保存成功',
+            icon: 'success', // 显示绿色的勾
+            duration: 2000,
+            success: () => {
+              // 如果需要保存后返回上一页，可以在这里写逻辑
               uni.$emit('REFRESH_LIST');
               uni.navigateBack();
-              // uni.redirectTo({
-              //   url: '/pages/business/schedule/index'
-              // });
-            }, 500);
-          }
-        });
+            }
+          });
+        }, 1000);
+
+      }).catch((error) => {
+        uni.hideLoading();
       }).finally(() => {
-        setTimeout(function () {
-          loading.value = false;
-        }, 500);
       });
     };
 
     const submitEdit = () => {
-      loading.value = true;
+      uni.showLoading({
+        title: '正在提交...',
+        mask: true
+      });
+
       api.update(targetId.value, {
         ...formData.value,
         flowType: formData.value.flowType ? formData.value.flowType : '',
@@ -289,14 +296,15 @@ export default defineComponent({
         endTime: normalizeTime(formData.value.endTime),
       }).then((res) => {
         // console.log(res);
-        uni.showToast({
-          title: '保存成功',
-          icon: 'success', // 显示绿色的勾
-          duration: 2000,
-          success: () => {
-            // 如果需要保存后返回上一页，可以在这里写逻辑
-            setTimeout(() => {
-              // uni.$emit('REFRESH_LIST');
+        setTimeout(() => {
+          uni.hideLoading();
+
+          uni.showToast({
+            title: '保存成功',
+            icon: 'success', // 显示绿色的勾
+            duration: 2000,
+            success: () => {
+              // 如果需要保存后返回上一页，可以在这里写逻辑
               uni.$emit('UPDATE_LIST_ITEM', {
                 id: targetId.value,
                 newData: {
@@ -307,16 +315,12 @@ export default defineComponent({
               });
 
               uni.navigateBack()
-              // uni.redirectTo({
-              //   url: '/pages/business/schedule/index'
-              // });
-            }, 500);
-          }
-        });
+            }
+          });
+        }, 1000);
+      }).catch((error) => {
+        uni.hideLoading();
       }).finally(() => {
-        setTimeout(function () {
-          loading.value = false;
-        }, 500);
       });
     };
 

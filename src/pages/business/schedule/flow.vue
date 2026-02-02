@@ -93,29 +93,31 @@ export default defineComponent({
     }
 
     const submitEdit = () => {
-      loading.value = true;
+      uni.showLoading({
+        title: '正在提交...',
+        mask: true
+      });
+
       api.flow(id.value, {
         ...formData.value,
       }).then((res) => {
         // console.log(res);
-        uni.showToast({
-          title: '保存成功',
-          icon: 'success', // 显示绿色的勾
-          duration: 2000,
-          success: () => {
-            // 如果需要保存后返回上一页，可以在这里写逻辑
-            setTimeout(() => {
-              uni.navigateBack()
-              // uni.redirectTo({
-              //   url: '/pages/business/schedule/index'
-              // });
-            }, 500);
-          }
-        });
+        setTimeout(() => {
+          uni.hideLoading();
+
+          uni.showToast({
+            title: '保存成功',
+            icon: 'success', // 显示绿色的勾
+            duration: 2000,
+            success: () => {
+              // 如果需要保存后返回上一页，可以在这里写逻辑
+              uni.navigateBack();
+            }
+          });
+        }, 1000);
+      }).catch((error) => {
+        uni.hideLoading();
       }).finally(() => {
-        setTimeout(function () {
-          loading.value = false;
-        }, 500);
       });
     };
 
