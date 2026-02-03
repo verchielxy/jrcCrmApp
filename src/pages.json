@@ -106,6 +106,24 @@
           }
         },
         {
+          "path": "pages/business/engineering/budgetChecklist/index",
+          "style": {
+            "navigationBarTitleText": "工程管理 - 预算清单"
+          }
+        },
+        {
+          "path": "pages/business/engineering/budgetChecklist/update",
+          "style": {
+            "navigationBarTitleText": "工程管理 - 预算清单 - 清单产品"
+          }
+        },
+        {
+          "path": "pages/business/engineering/budgetChecklist/view",
+          "style": {
+            "navigationBarTitleText": "工程管理 - 预算清单 - 详情"
+          }
+        },
+        {
           "path": "pages/business/research/support/index",
           "style": {
             "navigationBarTitleText": "研发管理 - 技术支持"
@@ -121,6 +139,24 @@
           "path": "pages/business/research/support/view",
           "style": {
             "navigationBarTitleText": "研发管理 - 技术支持 - 详情"
+          }
+        },
+        {
+          "path": "pages/business/research/budgetChecklist/index",
+          "style": {
+            "navigationBarTitleText": "研发管理 - 预算清单"
+          }
+        },
+        {
+          "path": "pages/business/research/budgetChecklist/update",
+          "style": {
+            "navigationBarTitleText": "研发管理 - 预算清单 - 清单产品"
+          }
+        },
+        {
+          "path": "pages/business/research/budgetChecklist/view",
+          "style": {
+            "navigationBarTitleText": "研发管理 - 预算清单 - 详情"
           }
         },
         {
@@ -142,6 +178,24 @@
           }
         },
         {
+          "path": "pages/business/software/budgetChecklist/index",
+          "style": {
+            "navigationBarTitleText": "软件管理 - 预算清单"
+          }
+        },
+        {
+          "path": "pages/business/software/budgetChecklist/update",
+          "style": {
+            "navigationBarTitleText": "软件管理 - 预算清单 - 清单产品"
+          }
+        },
+        {
+          "path": "pages/business/software/budgetChecklist/view",
+          "style": {
+            "navigationBarTitleText": "软件管理 - 预算清单 - 详情"
+          }
+        },
+        {
           "path": "pages/business/energy/support/index",
           "style": {
             "navigationBarTitleText": "节能管理 - 技术支持"
@@ -157,6 +211,24 @@
           "path": "pages/business/energy/support/view",
           "style": {
             "navigationBarTitleText": "节能管理 - 技术支持 - 详情"
+          }
+        },
+        {
+          "path": "pages/business/energy/budgetChecklist/index",
+          "style": {
+            "navigationBarTitleText": "节能管理 - 预算清单"
+          }
+        },
+        {
+          "path": "pages/business/energy/budgetChecklist/update",
+          "style": {
+            "navigationBarTitleText": "节能管理 - 预算清单 - 清单产品"
+          }
+        },
+        {
+          "path": "pages/business/energy/budgetChecklist/view",
+          "style": {
+            "navigationBarTitleText": "节能管理 - 预算清单 - 详情"
           }
         },
         {
