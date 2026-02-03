@@ -29,12 +29,12 @@
             :columns="tableColumns"
             stripe
             border
-            :showOverflowTooltip="true"
         >
           <template #cell="{ row, index, column }">
-            <view v-if="column.key === 'goodsName' || column.key === 'goodsSpec'">
-              <view @tap="handleTooltip(column.title, row[column.key])">{{ row[column.key] }}</view>
-            </view>
+            <text>{{ row[column.key] }}</text>
+<!--            <view v-if="column.key === 'goodsName' || column.key === 'goodsSpec'">-->
+<!--              <view @tap="handleTooltip(column.title, row[column.key])">{{ row[column.key] }}</view>-->
+<!--            </view>-->
           </template>
         </u-table2>
       </view>
