@@ -29,7 +29,13 @@
             :columns="tableColumns"
             stripe
             border
+            :showOverflowTooltip="true"
         >
+          <template #cell="{ row, index, column }">
+            <view v-if="column.key === 'goodsName' || column.key === 'goodsSpec'">
+              <view @tap="handleTooltip(column.title, row[column.key])">{{ row[column.key] }}</view>
+            </view>
+          </template>
         </u-table2>
       </view>
       <view class="center px10px py3em" v-else>
@@ -178,6 +184,14 @@ export default defineComponent({
       });
     }
 
+    const handleTooltip = (title, text) => {
+      uni.showModal({
+        title: title,
+        content: text,
+        showCancel: false,
+      });
+    }
+
     const handleAgree = () => {
       uni.showModal({
         title: '审批通过',
@@ -258,6 +272,7 @@ export default defineComponent({
       tableData,
       rejectReason,
       rejectModalShow,
+      handleTooltip,
       handleReview,
       handleAgree,
       handleDisagree,

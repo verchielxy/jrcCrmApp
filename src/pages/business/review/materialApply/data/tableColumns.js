@@ -9,7 +9,7 @@ export default [
 	{
 		title: '规格参数',
 		key: 'goodsSpec',
-		width: 200,
+		width: 250,
 	},
 	{
 		title: '产品型号',
