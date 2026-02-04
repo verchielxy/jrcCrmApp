@@ -6,47 +6,53 @@
       </view>
 
       <view class="menu-ul">
-        <view class="menu-li" v-for="item in menus.main">
-          <view class="menu-item center" @click="handleClick(item)">
-            <view class="menu-avatar-box mb5px">
-              <view class="menu-image center" v-if="item.image">
-                <up-image :src="item.image" width="100%" height="100%" mode="aspectFill" :lazy-load="true"></up-image>
+        <template v-for="item in menus.main">
+          <view class="menu-li" v-if="!item.hide">
+            <view class="menu-item center" @click="handleClick(item)">
+              <view class="menu-avatar-box mb5px">
+                <view class="menu-image center" v-if="item.image">
+                  <up-image :src="item.image" width="100%" height="100%" mode="aspectFill" :lazy-load="true"></up-image>
+                </view>
+                <view clas="menu-icon" v-else>
+                  <MaterialSymbol class="middle-icon c-success" :name="item.icon" :size="40" type="sharp" />
+                </view>
               </view>
-              <view clas="menu-icon" v-else>
-                <MaterialSymbol class="middle-icon c-success" :name="item.icon" :size="40" type="sharp" />
+              <view class="title">
+                {{ item.name }}
               </view>
-            </view>
-            <view class="title">
-              {{ item.name }}
             </view>
           </view>
-        </view>
+        </template>
       </view>
     </view>
 
-    <view class="section" v-for="menu in menus.list">
-      <view class="section-title">
-        <u-title>{{ menu.title }}</u-title>
-      </view>
+    <template v-for="menu in menus.list">
+      <view class="section" v-if="!menu.hide">
+        <view class="section-title">
+          <u-title>{{ menu.title }} {{ menu.hide }}</u-title>
+        </view>
 
-      <view class="menu-ul">
-        <view class="menu-li" v-for="item in menu.children">
-          <view class="menu-item center" @click="handleClick(item)">
-            <view class="menu-avatar-box mb5px">
-              <view class="menu-image center" v-if="item.image">
-                <up-image :src="item.image" width="100%" height="100%" mode="aspectFill" :lazy-load="true"></up-image>
-              </view>
-              <view clas="menu-icon" v-else>
-                <MaterialSymbol class="middle-icon c-success" :name="item.icon" :size="50" type="sharp" />
+        <view class="menu-ul">
+          <template v-for="item in menu.children">
+            <view class="menu-li" v-if="!item.hide">
+              <view class="menu-item center" @click="handleClick(item)">
+                <view class="menu-avatar-box mb5px">
+                  <view class="menu-image center" v-if="item.image">
+                    <up-image :src="item.image" width="100%" height="100%" mode="aspectFill" :lazy-load="true"></up-image>
+                  </view>
+                  <view clas="menu-icon" v-else>
+                    <MaterialSymbol class="middle-icon c-success" :name="item.icon" :size="50" type="sharp" />
+                  </view>
+                </view>
+                <view class="title">
+                  {{ item.name }}
+                </view>
               </view>
             </view>
-            <view class="title">
-              {{ item.name }}
-            </view>
-          </view>
+          </template>
         </view>
       </view>
-    </view>
+    </template>
   </uContainer>
 </template>
 
