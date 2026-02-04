@@ -150,7 +150,7 @@ export default defineComponent({
     });
     const pagination = reactive({
       page: 1,
-      size: 5,
+      size: 10,
       total: 0,
       done: false,
       status: 'loadmore',
