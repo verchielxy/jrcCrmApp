@@ -8,6 +8,7 @@
         :maxCount="limit"
         :maxSize="uploadSize * 1024 * 1024"
         :autoDelete="true"
+        uploadText="上传图片"
         @afterRead="afterRead"
     ></up-upload>
   </view>

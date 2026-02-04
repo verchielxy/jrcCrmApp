@@ -206,6 +206,21 @@
             :uploadSize="item.uploadSize"
             @uploadChange="(file, files) => imageUploadChange(item, file, files)"
         ></imageUpload>
+        <fileUpload
+            v-else-if="item.type === 'fileUpload'"
+            :files="item.files"
+            :placeholder="item.placeholder"
+            :disabled="item.disabled"
+            :limit="item.limit"
+            :uploadUrl="item.uploadUrl"
+            :uploadKey="item.uploadKey"
+            :uploadMethod="item.uploadMethod"
+            :uploadHeaders="item.uploadHeaders"
+            :uploadParams="item.uploadParams"
+            :uploadAccepts="item.uploadAccepts"
+            :uploadSize="item.uploadSize"
+            @uploadChange="(file, files) => fileUploadChange(item, file, files)"
+        ></fileUpload>
       </up-form-item>
     </template>
   </view>
@@ -218,11 +233,13 @@ import { useStore } from 'vuex';
 import { isNullOrUndefined } from '@/utils/tools';
 import dayjs from 'dayjs';
 import imageUpload from '@components/modules/uploadLocal/imageUpload.vue';
+import fileUpload from '@components/modules/uploadLocal/fileUpload.vue';
 
 export default defineComponent({
   name: 'vFormRow',
   components: {
     imageUpload,
+    fileUpload,
   },
   props: {
     rows: {
@@ -426,6 +443,26 @@ export default defineComponent({
       }
     };
 
+    const fileUploadChange = (item, file, files) => {
+      if (item.valueSingle) {
+        formData.value[item.name] = '';
+        if (file) {
+          formData.value[item.name] = file.value;
+        }
+      } else {
+        formData.value[item.name] = [];
+        if (files.length > 0) {
+          formData.value[item.name] = files.map(fileItem => fileItem.value);
+        }
+      }
+
+      context.emit('update:formData', formData);
+
+      if (item.changeEvent) {
+        context.emit(item.changeEvent.name, item, file, files);
+      }
+    };
+
     return {
       isNullOrUndefined,
       rows,
@@ -442,6 +479,7 @@ export default defineComponent({
       upDatePickerRangeConfirm,
       radioButtonChange,
       imageUploadChange,
+      fileUploadChange,
     };
   },
 });
