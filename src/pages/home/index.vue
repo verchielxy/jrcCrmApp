@@ -158,7 +158,7 @@ export default defineComponent({
   }
 
   .title {
-    font-size: 15px;
+    font-size: 14px;
   }
 }
 </style>
