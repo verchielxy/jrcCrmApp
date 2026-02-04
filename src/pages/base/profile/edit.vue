@@ -43,6 +43,15 @@ export default defineComponent({
           limit: 1,
           valueSingle: false,
         },
+        // {
+        //   title: '文件',
+        //   placeholder: '请上传文件',
+        //   type: 'fileUpload',
+        //   name: 'file',
+        //   files: [],
+        //   limit: 1,
+        //   valueSingle: false,
+        // },
         {
           title: '用户姓名',
           placeholder: '请输入用户姓名',
