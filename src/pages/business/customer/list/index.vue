@@ -213,7 +213,8 @@ export default defineComponent({
                 uni.showToast({
                   title: '删除成功',
                   icon: 'success', // 显示绿色的勾
-                  duration: 2000,
+                  duration: 1500,
+                  mask: true,
                   success: () => {
                     onRefresh();
                   }
