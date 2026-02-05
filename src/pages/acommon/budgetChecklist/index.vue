@@ -22,7 +22,7 @@
             <view class="p10px relative">
               <view class="float-right-bottom">
                 <view @tap.stop>
-                  <up-button type="primary" size="small" @click="handleUpdate(item)">清单产品</up-button>
+                  <up-button type="primary" size="small" @click="handleUpdate(item)">清单产品 {{ item.productNum }}</up-button>
                 </view>
               </view>
 
