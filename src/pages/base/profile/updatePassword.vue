@@ -88,18 +88,26 @@ export default defineComponent({
     const handleSubmit = () => {
       formRef.value.validate().then(valid => {
         if (valid) {
+          uni.showLoading({
+            title: '正在提交...',
+            mask: true
+          });
+
           proxy.$api.auth.updatePassword(formData.value).then((res) => {
             // console.log(res)
 
-            uni.$u.toast('密码修改成功');
+            setTimeout(() => {
+              uni.hideLoading();
 
-            // uni.redirectTo({
-            //   url: '/pages/profile/index',
-            // })
-
-            uni.navigateBack({
-              // delta: 0,
-            })
+              uni.showToast({
+                title: '密码修改成功',
+                icon: 'success', // 显示绿色的勾
+                duration: 2000,
+                success: () => {
+                  uni.navigateBack();
+                }
+              });
+            }, 1000);
 
           }).finally(() => {
 
