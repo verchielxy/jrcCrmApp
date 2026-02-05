@@ -3,6 +3,7 @@ const menuConfig = {
 		icon: 'icon',
 		url: 'url',
 		image: 'image',
+		hide: 'hide',
 	},
 	allows: [
 		{
@@ -11,6 +12,27 @@ const menuConfig = {
 			icon: 'calendar_month',
 			image: '/static/images/home/schedule.png',
 			name: '日程管理',
+		},
+		{
+			key: '/manage/customer',
+			name: '客户管理',
+			// hide: true,
+			children: [
+				{
+					key: '/manage/customer/list',
+					url: '/pages/business/customer/list/index',
+					icon: 'account_child',
+					image: '/static/images/home/customer_list.png',
+					name: '客户列表',
+				},
+				{
+					key: '/manage/customer/contact',
+					url: '/pages/business/customer/contact/index',
+					icon: 'inbox_text_person',
+					image: '/static/images/home/customer_contact.png',
+					name: '客户联系人',
+				},
+			],
 		},
 		{
 			key: '/manage/engineering',
