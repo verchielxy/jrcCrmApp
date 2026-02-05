@@ -66,9 +66,11 @@ const contactApi = {
 			formatDataKey: 'result',
 			formatAppend: {
 				showText: [
+					['customName', 'custom.name']
 				],
 				constantText: [
 					['decisionMakerText', constant.NORMAL.YES_OR_NO, 'decisionMaker'],
+					['sexText', constant.USER.SEX, 'sex'],
 				],
 				constant: [],
 			},
