@@ -91,6 +91,14 @@ const customerApi = {
 				],
 				constant: [],
 			},
+			formatFunction: (res) => {
+				let json = res.result;
+				if (json.provinces) {
+					json.provincesArr = treeFindParents(pcaJson, 'code', json.provinces).reverse();
+				} else {
+					json.provincesArr = [];
+				}
+			}
 		});
 	},
 	delete(id) {
