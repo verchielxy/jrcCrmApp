@@ -29,10 +29,13 @@
             <view class="float-right-bottom" v-if="scheduleConfig.canOperate(item, user)">
               <view @tap.stop>
                 <up-row :gutter="5">
-                  <up-col :span="6">
+                  <up-col :span="4">
+                    <up-button type="error" size="small" @click="handleDelete(item)">删除</up-button>
+                  </up-col>
+                  <up-col :span="4">
                     <up-button type="primary" size="small" @click="handleUpdate(item)">编辑</up-button>
                   </up-col>
-                  <up-col :span="6">
+                  <up-col :span="4">
                     <up-button type="primary" size="small" @click="handleUpdateFlow(item)">记录</up-button>
                   </up-col>
                 </up-row>
@@ -188,6 +191,44 @@ export default defineComponent({
       })
     }
 
+    const handleDelete = (item) => {
+      uni.showModal({
+        title: '是否删除',
+        content: '确认删除该条数据吗？',
+        confirmColor: '#2979ff',
+        success: (res) => {
+          if (res.confirm) {
+            // 调用后端接口
+            uni.showLoading({
+              title: '正在删除...',
+              zIndex: 999,
+              mask: true
+            });
+
+            api.delete(item.id).then((res) => {
+
+              setTimeout(() => {
+                uni.hideLoading();
+
+                uni.showToast({
+                  title: '删除成功',
+                  icon: 'success', // 显示绿色的勾
+                  duration: 2000,
+                  success: () => {
+                    onRefresh();
+                  }
+                });
+              }, 1000);
+
+            }).catch((error) => {
+              uni.hideLoading();
+            }).finally(() => {
+            });
+          }
+        }
+      });
+    }
+
     onMounted( () => {
       loading.value = true;
       getData();
@@ -223,6 +264,7 @@ export default defineComponent({
       handleUpdate,
       handleUpdateFlow,
       handleView,
+      handleDelete,
     };
   },
 });
