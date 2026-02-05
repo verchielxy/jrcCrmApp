@@ -111,6 +111,30 @@
           }
         },
         {
+          "path": "pages/business/customer/contact/index",
+          "style": {
+            "navigationBarTitleText": "客户联系人列表"
+          }
+        },
+        {
+          "path": "pages/business/customer/contact/create",
+          "style": {
+            "navigationBarTitleText": "客户联系人 - 创建"
+          }
+        },
+        {
+          "path": "pages/business/customer/contact/update",
+          "style": {
+            "navigationBarTitleText": "客户联系人 - 编辑"
+          }
+        },
+        {
+          "path": "pages/business/customer/contact/view",
+          "style": {
+            "navigationBarTitleText": "客户联系人 - 详情"
+          }
+        },
+        {
           "path": "pages/business/engineering/support/index",
           "style": {
             "navigationBarTitleText": "工程管理 - 技术支持"
