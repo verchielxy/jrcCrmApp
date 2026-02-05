@@ -11,13 +11,6 @@
           size="small"
           class="mb20px"
       >
-        <template #contractReview="{ list }">
-          <view>
-            <view class="mb5px font12px" v-for="item in list">
-              {{ item.endTime }} {{ item.approvalStage }} - <text :class="item.status ? 'c-success':'c-error'">{{ item.opinion }}</text>
-            </view>
-          </view>
-        </template>
       </vViewRow>
     </view>
   </uContainer>

@@ -53,10 +53,9 @@
 		{
 			"path": "pages/news/index",
 			"style": {
-				"navigationBarTitleText": "资讯"
+				"navigationBarTitleText": "消息通知"
 			}
 		},
-
 		{
 			"path": "pages/business/schedule/index",
 			"style": {
@@ -85,6 +84,30 @@
           "path": "pages/business/schedule/flow",
           "style": {
             "navigationBarTitleText": "日程管理 - 日程记录"
+          }
+        },
+        {
+          "path": "pages/business/customer/list/index",
+          "style": {
+            "navigationBarTitleText": "客户列表"
+          }
+        },
+        {
+          "path": "pages/business/customer/list/create",
+          "style": {
+            "navigationBarTitleText": "客户列表 - 创建"
+          }
+        },
+        {
+          "path": "pages/business/customer/list/update",
+          "style": {
+            "navigationBarTitleText": "客户列表 - 编辑"
+          }
+        },
+        {
+          "path": "pages/business/customer/list/view",
+          "style": {
+            "navigationBarTitleText": "客户列表 - 详情"
           }
         },
         {
@@ -335,7 +358,7 @@
 			},
 			{
 				"pagePath": "pages/news/index",
-				"text": "资讯",
+				"text": "消息通知",
 				"iconPath": "static/images/tabBar/news.png",
 				"selectedIconPath": "static/images/tabBar/news_active.png"
 			},
