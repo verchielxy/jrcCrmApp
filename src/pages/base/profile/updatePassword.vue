@@ -95,22 +95,21 @@ export default defineComponent({
 
           proxy.$api.auth.updatePassword(formData.value).then((res) => {
             // console.log(res)
-
             setTimeout(() => {
               uni.hideLoading();
 
               uni.showToast({
                 title: '密码修改成功',
                 icon: 'success', // 显示绿色的勾
-                duration: 2000,
+                duration: 1500,
+                mask: true,
                 success: () => {
-                  uni.navigateBack();
+                  setTimeout(() => {
+                    uni.navigateBack();
+                  }, 1500);
                 }
               });
             }, 1000);
-
-          }).finally(() => {
-
           });
 
         } else {

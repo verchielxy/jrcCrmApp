@@ -142,11 +142,26 @@ export default defineComponent({
     const handleSubmit = () => {
       formRef.value.validate().then(valid => {
         if (valid) {
-          // console.log('表单数据信息：', valid);
+          uni.showLoading({
+            title: '正在提交...',
+            mask: true
+          });
 
-          uni.$u.toast('个人信息修改成功');
+          setTimeout(() => {
+            uni.hideLoading();
 
-          uni.navigateBack({})
+            uni.showToast({
+              title: '保存成功',
+              icon: 'success', // 显示绿色的勾
+              duration: 1500,
+              mask: true,
+              success: () => {
+                setTimeout(() => {
+                  uni.navigateBack();
+                }, 1500);
+              }
+            });
+          }, 1000);
 
         } else {
           uni.$u.toast('校验失败')

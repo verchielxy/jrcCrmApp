@@ -187,11 +187,14 @@ export default defineComponent({
           uni.showToast({
             title: '保存成功',
             icon: 'success', // 显示绿色的勾
-            duration: 2000,
+            duration: 1500,
+            mask: true,
             success: () => {
               // 如果需要保存后返回上一页，可以在这里写逻辑
-              uni.$emit('REFRESH_LIST');
-              uni.navigateBack();
+              setTimeout(() => {
+                uni.$emit('REFRESH_LIST');
+                uni.navigateBack();
+              }, 1500);
             }
           });
         }, 1000);
@@ -218,18 +221,20 @@ export default defineComponent({
           uni.showToast({
             title: '保存成功',
             icon: 'success', // 显示绿色的勾
-            duration: 2000,
+            duration: 1500,
+            mask: true,
             success: () => {
               // 如果需要保存后返回上一页，可以在这里写逻辑
-              uni.$emit('UPDATE_LIST_ITEM', {
-                id: targetId.value,
-                newData: {
-                  ...target.value,
-                  ...formData.value,
-                },
-              });
-
-              uni.navigateBack()
+              setTimeout(() => {
+                uni.$emit('UPDATE_LIST_ITEM', {
+                  id: targetId.value,
+                  newData: {
+                    ...target.value,
+                    ...formData.value,
+                  },
+                });
+                uni.navigateBack();
+              }, 1500);
             }
           });
         }, 1000);
