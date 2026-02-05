@@ -141,7 +141,39 @@
         >
         </up-datetime-picker>
         <view v-else-if="item.type === 'dateRange' || item.type === 'datetimeRange' || item.type === 'yearRange' || item.type === 'monthRange'">
-
+          <up-datetime-picker
+              class="mb10px"
+              v-model="formData[item.names[0]]"
+              :placeholder="!isNullOrUndefined(item.placeholder[0]) ? item.placeholder[0] : null"
+              :format="item.format"
+              :mode="item.mode"
+              hasInput
+              :inputProps="{
+                border: 'surround',
+                shape: 'square',
+                inputAlign: 'left',
+                suffixIcon: 'calendar'
+              }"
+              :closeOnClickOverlay="item.closeOnClickOverlay"
+              :itemHeight="item.itemHeight"
+              @confirm="(value) => { upDatePickerRangeConfirm(item, 'start', value) }"
+          ></up-datetime-picker>
+          <up-datetime-picker
+              v-model="formData[item.names[1]]"
+              :placeholder="!isNullOrUndefined(item.placeholder[1]) ? item.placeholder[1] : null"
+              :format="item.format"
+              :mode="item.mode"
+              hasInput
+              :inputProps="{
+                border: 'surround',
+                shape: 'square',
+                inputAlign: 'left',
+                suffixIcon: 'calendar'
+              }"
+              :closeOnClickOverlay="item.closeOnClickOverlay"
+              :itemHeight="item.itemHeight"
+              @confirm="(value) => { upDatePickerRangeConfirm(item, 'end', value) }"
+          ></up-datetime-picker>
         </view>
         <view class="full-width" v-else-if="item.type === 'timeRange'">
           <up-datetime-picker
@@ -177,6 +209,15 @@
               :itemHeight="item.itemHeight"
               @confirm="(value) => { upDatePickerRangeConfirm(item, 'end', value) }"
           ></up-datetime-picker>
+        </view>
+        <view class="full-width" v-else-if="item.type === 'area'">
+          <areaSelect
+              v-model:value="formData[item.name]"
+              :placeholder="item.placeholder"
+              :optionsJson="item.optionsJson"
+              :allowClear="isNullOrUndefined(item.allowClear) ? true : item.allowClear"
+              :valueFormat="item.valueFormat"
+          ></areaSelect>
         </view>
         <up-switch
             v-else-if="item.type === 'switch'"
@@ -232,12 +273,14 @@ import { defineComponent, getCurrentInstance, ref, reactive, toRef, computed, on
 import { useStore } from 'vuex';
 import { isNullOrUndefined } from '@/utils/tools';
 import dayjs from 'dayjs';
+import areaSelect from "@components/modules/areaSelect/index.vue";
 import imageUpload from '@components/modules/uploadLocal/imageUpload.vue';
 import fileUpload from '@components/modules/uploadLocal/fileUpload.vue';
 
 export default defineComponent({
   name: 'vFormRow',
   components: {
+    areaSelect,
     imageUpload,
     fileUpload,
   },
@@ -401,7 +444,6 @@ export default defineComponent({
 
     const upDatePickerRangeConfirm = (item, type, value) => {
       // console.log(value)
-      // console.log(item.tmpVlaue);
       let formatValue;
 
       if (item.type === 'timeRange') {
