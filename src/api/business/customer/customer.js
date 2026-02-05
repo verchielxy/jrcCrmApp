@@ -1,5 +1,8 @@
 import request from '@/plugins/request/index';
 import serverUrl from '@api/serviceUrl';
+import constant from '@/constant';
+import { treeFindParents } from "@utils/tools";
+import pcaJson from "@/static/area/pca-code.json";
 
 const apiVersion = '/api/v1/custom';
 
@@ -16,7 +19,30 @@ const customerApi = {
 			formatAppend: {
 				key: 'id',
 				serial: true,
+				showText: [
+					['contactsName', 'contacts.name'],
+					['contactsPhone', 'contacts.phone'],
+					['headUserName', 'headUser.name'],
+				],
+				constantText: [
+					['industryText', constant.BUSINESS.CUSTOMER.INDUSTRY, 'industry'],
+					['sourceText', constant.BUSINESS.CUSTOMER.SOURCE, 'source'],
+					['gradeText', constant.BUSINESS.CUSTOMER.GRADE, 'grade'],
+					['projectTypeText', constant.BUSINESS.PROJECT.TYPE, 'projectType'],
+				],
+				constant: [
+				],
 			},
+			formatFunction: (res) => {
+				let json = res.result;
+				json.records.map(function (item) {
+					if (item.provinces) {
+						item.provincesArr = treeFindParents(pcaJson, 'code', item.provinces).reverse();
+					} else {
+						item.provincesArr = [];
+					}
+				})
+			}
 		});
 	},
 	create(data) {
@@ -49,6 +75,21 @@ const customerApi = {
 			},
 			data: {
 				...searchParams,
+			},
+			formatDataKey: 'result',
+			formatAppend: {
+				showText: [
+					['contactsName', 'contacts.name'],
+					['contactsPhone', 'contacts.phone'],
+					['headUserName', 'headUser.name'],
+				],
+				constantText: [
+					['industryText', constant.BUSINESS.CUSTOMER.INDUSTRY, 'industry'],
+					['sourceText', constant.BUSINESS.CUSTOMER.SOURCE, 'source'],
+					['gradeText', constant.BUSINESS.CUSTOMER.GRADE, 'grade'],
+					['projectTypeText', constant.BUSINESS.PROJECT.TYPE, 'projectType'],
+				],
+				constant: [],
 			},
 		});
 	},

@@ -1,5 +1,6 @@
 import request from '@/plugins/request/index';
 import serverUrl from '@api/serviceUrl';
+import constant from '@/constant';
 
 const apiVersion = '/api/v1/contacts';
 
@@ -16,7 +17,19 @@ const contactApi = {
 			formatAppend: {
 				key: 'id',
 				serial: true,
+				showText: [
+				],
+				constantText: [
+					['decisionMakerText', constant.NORMAL.YES_OR_NO, 'decisionMaker'],
+				],
+				constant: [
+				],
 			},
+			formatFunction: (res) => {
+				let json = res.result;
+				json.records.map(function (item) {
+				})
+			}
 		});
 	},
 	create(data) {
@@ -49,6 +62,15 @@ const contactApi = {
 			},
 			data: {
 				...searchParams,
+			},
+			formatDataKey: 'result',
+			formatAppend: {
+				showText: [
+				],
+				constantText: [
+					['decisionMakerText', constant.NORMAL.YES_OR_NO, 'decisionMaker'],
+				],
+				constant: [],
 			},
 		});
 	},
