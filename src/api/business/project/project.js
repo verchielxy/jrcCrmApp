@@ -18,14 +18,23 @@ const projectApi = {
 			formatAppend: {
 				key: 'id',
 				serial: true,
+				showText: [
+					['contactsName', 'contacts.name'],
+					['contactsPhone', 'contacts.phone'],
+					['headUserName', 'headUser.name'],
+				],
+				constantText: [
+					['typeText', constant.BUSINESS.PROJECT.TYPE, 'type'],
+					['gradeText', constant.BUSINESS.PROJECT.GRADE, 'grade'],
+					['statusText', constant.BUSINESS.PROJECT.STATUS, 'status'],
+				],
+				constant: [
+					['statusConstant', constant.BUSINESS.PROJECT.STATUS, 'status'],
+				],
 			},
 			formatFunction: (res) => {
 				let json = res.result;
 				json.records.map(function (item) {
-					item.typeText = constant.convertText(constant.BUSINESS.PROJECT.TYPE, item.type);
-					item.gradeText = constant.convertText(constant.BUSINESS.PROJECT.GRADE, item.grade);
-					item.statusText = constant.convertText(constant.BUSINESS.PROJECT.STATUS, item.status);
-					item.statusConstant = constant.convertItem(constant.BUSINESS.PROJECT.STATUS, item.status);
 				})
 			}
 		});
@@ -61,16 +70,25 @@ const projectApi = {
 			data: {
 				...searchParams,
 			},
+			formatDataKey: 'result',
+			formatAppend: {
+				showText: [
+					['customName', 'custom.name'],
+					['contactsName', 'contacts.contactsName'],
+					['contactsPhone', 'contacts.phone'],
+					['headUserName', 'headUser.name'],
+				],
+				constantText: [
+					['typeText', constant.BUSINESS.PROJECT.TYPE, 'type'],
+					['gradeText', constant.BUSINESS.PROJECT.GRADE, 'grade'],
+					['statusText', constant.BUSINESS.PROJECT.STATUS, 'status'],
+				],
+				constant: [
+					['statusConstant', constant.BUSINESS.PROJECT.STATUS, 'status'],
+				],
+			},
 			formatFunction: (res) => {
 				let json = res.result;
-				json.typeText = constant.convertText(constant.BUSINESS.PROJECT.TYPE, json.type);
-				json.gradeText = constant.convertText(constant.BUSINESS.PROJECT.GRADE, json.grade);
-				json.statusText = constant.convertText(constant.BUSINESS.PROJECT.STATUS, json.status);
-				json.statusConstant = constant.convertItem(constant.BUSINESS.PROJECT.STATUS, json.status);
-				json.customName = json.custom?.name;
-				json.contactsName = json.contacts?.contactsName;
-				json.contactsPhone = json.contacts?.phone;
-				json.headUserName = json.headUser?.name;
 
 				if (json.contract) {
 					json.contractTaxRate1 = json.contract?.taxRate1;
