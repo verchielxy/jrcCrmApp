@@ -135,6 +135,42 @@
           }
         },
         {
+          "path": "pages/business/project/list/index",
+          "style": {
+            "navigationBarTitleText": "项目列表"
+          }
+        },
+        {
+          "path": "pages/business/project/list/create",
+          "style": {
+            "navigationBarTitleText": "项目列表 - 创建"
+          }
+        },
+        {
+          "path": "pages/business/project/list/update",
+          "style": {
+            "navigationBarTitleText": "项目列表 - 编辑"
+          }
+        },
+        {
+          "path": "pages/business/project/list/view/index",
+          "style": {
+            "navigationBarTitleText": "项目列表 - 详情"
+          }
+        },
+        {
+          "path": "pages/business/project/list/support/index",
+          "style": {
+            "navigationBarTitleText": "项目列表 - 技术支持 - 列表"
+          }
+        },
+        {
+          "path": "pages/business/project/list/budgetChecklist/index",
+          "style": {
+            "navigationBarTitleText": "项目列表 - 预算清单 - 列表"
+          }
+        },
+        {
           "path": "pages/business/engineering/support/index",
           "style": {
             "navigationBarTitleText": "工程管理 - 技术支持"
