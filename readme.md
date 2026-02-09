@@ -21,17 +21,23 @@ keytool -genkey -v -keystore android.keystore -alias mykeyalias -keyalg RSA -key
 
 # 查看证书
 keytool -list -v -keystore android.keystore
-
-# 证书密码
-123456
 ```
 
 ## 打包apk流程
 
 ```bash
 # 发行 选择传统打包
-# 包名举例
+
+# 本项目打包资料
+
+# 包名
 com.xy.jrc.crm.platform
+
+# 证书昵称
+mykeyalias
+
+# 证书密码
+123456
 ```
 
 ## HBuilder 打包需要将node加入到 .bash_profile
