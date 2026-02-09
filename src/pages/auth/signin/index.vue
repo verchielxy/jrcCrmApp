@@ -190,7 +190,7 @@ export default defineComponent({
 
 <style scoped lang="less">
 .full-page {
-  background-image: url("/static/images/auth/bg2.jpeg");
+  background-image: url("@/static/images/auth/bg2.jpeg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
