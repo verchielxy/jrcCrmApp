@@ -18,10 +18,10 @@ const supportApi = {
 				key: 'id',
 				serial: true,
 				showText: [
+					['supportUserName', 'supportUser.name'],
 				],
 				constantText: [
-					['projectTypeText', constant.BUSINESS.PROJECT.TYPE, 'projectType'],
-					['projectGradeText', constant.BUSINESS.PROJECT.GRADE, 'projectGrade'],
+					['typeText', constant.BUSINESS.DEPARTMENTS, 'type'],
 					['statusText', constant.BUSINESS.SUPPORT.STATUS, 'status'],
 				],
 				constant: [
@@ -70,12 +70,9 @@ const supportApi = {
 			formatDataKey: 'result',
 			formatAppend: {
 				showText: [
-					['headUserName', 'headUser.name'],
 					['supportUserName', 'supportUser.name'],
 				],
 				constantText: [
-					['projectTypeText', constant.BUSINESS.PROJECT.TYPE, 'projectType'],
-					['projectGradeText', constant.BUSINESS.PROJECT.GRADE, 'projectGrade'],
 					['typeText', constant.BUSINESS.DEPARTMENTS, 'type'],
 					['statusText', constant.BUSINESS.SUPPORT.STATUS, 'status'],
 				],
