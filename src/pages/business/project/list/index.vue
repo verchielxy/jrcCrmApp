@@ -195,21 +195,33 @@ export default defineComponent({
     }
 
     const handleSupport = (item) => {
-      jumpTo({
-        url: '/pages/business/project/list/support/index',
-        params: {
-          id: item.id,
-        }
-      })
+      uni.showToast({
+        title: '该功能开发中...',
+        icon: 'none',    // 重点：设置为 none 就不显示绿色的勾，只显示文字
+        duration: 2000   // 提示持续时间，单位毫秒
+      });
+
+      // jumpTo({
+      //   url: '/pages/business/project/list/support/index',
+      //   params: {
+      //     id: item.id,
+      //   }
+      // })
     }
 
     const handleBudgetChecklist = (item) => {
-      jumpTo({
-        url: '/pages/business/project/list/budgetChecklist/index',
-        params: {
-          id: item.id,
-        }
-      })
+      uni.showToast({
+        title: '该功能开发中...',
+        icon: 'none',    // 重点：设置为 none 就不显示绿色的勾，只显示文字
+        duration: 2000   // 提示持续时间，单位毫秒
+      });
+
+      // jumpTo({
+      //   url: '/pages/business/project/list/budgetChecklist/index',
+      //   params: {
+      //     id: item.id,
+      //   }
+      // })
     }
 
     const handleDelete = (item) => {
