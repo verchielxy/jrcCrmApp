@@ -165,7 +165,7 @@ export default defineComponent({
 
       api.create({
         ...formData.value,
-        clueDate: formRef.value.clueDate ? formRef.value.clueDate + ':00' : undefined,
+        clueDate: formData.value.clueDate ? formData.value.clueDate + ':00' : undefined,
       }).then((res) => {
         // console.log(res);
         setTimeout(() => {
@@ -200,7 +200,7 @@ export default defineComponent({
 
       api.update(targetId.value, {
         ...formData.value,
-        clueDate: formRef.value.clueDate ? formRef.value.clueDate + ':00' : undefined,
+        clueDate: formData.value.clueDate ? formData.value.clueDate + ':00' : undefined,
       }).then((res) => {
         // console.log(res);
         setTimeout(() => {
