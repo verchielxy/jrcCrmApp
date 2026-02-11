@@ -195,18 +195,18 @@ export default defineComponent({
     }
 
     const handleSupport = (item) => {
-      // uni.showToast({
-      //   title: '该功能开发中...',
-      //   icon: 'none',
-      //   duration: 2000
-      // });
+      uni.showToast({
+        title: '该功能开发中...',
+        icon: 'none',
+        duration: 2000
+      });
 
-      jumpTo({
-        url: '/pages/business/project/list/support/index',
-        params: {
-          id: item.id,
-        }
-      })
+      // jumpTo({
+      //   url: '/pages/business/project/list/support/index',
+      //   params: {
+      //     id: item.id,
+      //   }
+      // })
     }
 
     const handleBudgetChecklist = (item) => {
