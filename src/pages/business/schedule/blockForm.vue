@@ -13,6 +13,8 @@
       </up-form>
     </view>
 
+    {{ formData }}
+
     <view class="operation-box bg-white p20px">
       <up-button type="success" @click="handleSubmit">保存</up-button>
     </view>
@@ -230,23 +232,6 @@ export default defineComponent({
       }
     }
 
-    function normalizeTime(time) {
-      // 空值统一返回 null
-      if (time == null || time === '') {
-        return null
-      }
-
-      // HH:mm 或 HH:mm:ss
-      const match = time.match(/^(\d{2}):(\d{2})(?::(\d{2}))?$/)
-      if (!match) {
-        return time
-      }
-
-      const [, h, m, s] = match
-
-      return `${h}:${m}:${s ?? '00'}`
-    }
-
     const submitAdd = () => {
       uni.showLoading({
         title: '正在提交...',
@@ -257,8 +242,6 @@ export default defineComponent({
         ...formData.value,
         flowType: formData.value.flowType ? formData.value.flowType : '',
         remindSet: formData.value.remindSet ? formData.value.remindSet : '',
-        startTime: normalizeTime(formData.value.startTime),
-        endTime: normalizeTime(formData.value.endTime),
       }).then((res) => {
         // console.log(res);
         setTimeout(() => {
@@ -295,8 +278,6 @@ export default defineComponent({
         ...formData.value,
         flowType: formData.value.flowType ? formData.value.flowType : '',
         remindSet: formData.value.remindSet ? formData.value.remindSet : '',
-        startTime: normalizeTime(formData.value.startTime),
-        endTime: normalizeTime(formData.value.endTime),
       }).then((res) => {
         // console.log(res);
         setTimeout(() => {
