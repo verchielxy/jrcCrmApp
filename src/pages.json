@@ -165,6 +165,24 @@
           }
         },
         {
+          "path": "pages/business/project/list/support/create",
+          "style": {
+            "navigationBarTitleText": "项目列表 - 技术支持 - 创建"
+          }
+        },
+        {
+          "path": "pages/business/project/list/support/update",
+          "style": {
+            "navigationBarTitleText": "项目列表 - 技术支持 - 更新"
+          }
+        },
+        {
+          "path": "pages/business/project/list/support/view",
+          "style": {
+            "navigationBarTitleText": "项目列表 - 技术支持 - 详情"
+          }
+        },
+        {
           "path": "pages/business/project/list/budgetChecklist/index",
           "style": {
             "navigationBarTitleText": "项目列表 - 预算清单 - 列表"
