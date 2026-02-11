@@ -1,6 +1,6 @@
 <template>
   <blockForm
-    :targetId="id"
+      :targetId="id"
   ></blockForm>
 </template>
 
