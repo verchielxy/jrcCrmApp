@@ -328,12 +328,12 @@ export default defineComponent({
     const spinningTime = ref(500);
 
     const datetimeFormat = {
-      time: 'HH:mm',
+      time: 'HH:mm:ss',
       date: 'YYYY-MM-DD',
-      datetime: 'YYYY-MM-DD HH:mm',
+      datetime: 'YYYY-MM-DD HH:mm:ss',
       year: 'YYYY',
       month: 'YYYY-MM',
-      timeRange: 'HH:mm',
+      timeRange: 'HH:mm:ss',
       dateRange: 'YYYY-MM-DD',
       yearRange: 'YYYY',
       monthRange: 'YYYY-MM',
@@ -423,16 +423,35 @@ export default defineComponent({
       // console.log(selectItem)
     }
 
+    // 格式化时间参数 09:00 -> 09:00:00
+    function normalizeTime(time) {
+      // 空值统一返回 null
+      if (time == null || time === '') {
+        return null
+      }
+
+      // HH:mm 或 HH:mm:ss
+      const match = time.match(/^(\d{2}):(\d{2})(?::(\d{2}))?$/)
+      if (!match) {
+        return time
+      }
+
+      const [, h, m, s] = match
+
+      return `${h}:${m}:${s ?? '00'}`
+    }
+
     const upDatePickerConfirm = (item, value) => {
       // console.log(value)
-      // console.log(item.tmpVlaue);
 
       item.tmpVlaue = value.value;
 
       let formatValue;
 
       if (item.type === 'time') {
-        formatValue = value.value;
+        formatValue = normalizeTime(value.value);
+      } else if (item.type === 'datetime') {
+        formatValue = dayjs(value.value).format(item.format);
       } else {
         formatValue = dayjs(value.value).format(item.format);
       }
@@ -447,15 +466,17 @@ export default defineComponent({
       let formatValue;
 
       if (item.type === 'timeRange') {
-        formatValue = value.value;
+        formatValue = normalizeTime(value.value);
       } else {
         formatValue = dayjs(value.value).format(item.format);
       }
 
       if (type === 'start') {
         formData.value[item.name][0] = formatValue;
+        formData.value[item.names[0]] = formatValue;
       } else {
         formData.value[item.name][1] = formatValue;
+        formData.value[item.names[1]] = formatValue;
       }
 
       context.emit('update:formData', formData);
