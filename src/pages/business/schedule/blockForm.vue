@@ -13,8 +13,6 @@
       </up-form>
     </view>
 
-    {{ formData }}
-
     <view class="operation-box bg-white p20px">
       <up-button type="success" @click="handleSubmit">保存</up-button>
     </view>
