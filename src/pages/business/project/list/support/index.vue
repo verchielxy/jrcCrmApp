@@ -4,17 +4,17 @@
 
     <view class="search-box bg-white p10px">
       <up-row :gutter="20">
-        <up-col :span="9">
+        <up-col :span="8">
           <up-search
-              placeholder="请输入项目名称"
+              placeholder="请输入部门名称"
               v-model="searchParams.name"
               :clearabled="true"
               @search="handleSearch"
               @custom="handleSearch"
           ></up-search>
         </up-col>
-        <up-col :span="3">
-          <up-button size="small" type="primary" @click="handleCreate">创建项目</up-button>
+        <up-col :span="4">
+          <up-button size="small" type="primary" @click="handleCreate">新建技术支持</up-button>
         </up-col>
       </up-row>
     </view>
@@ -27,27 +27,17 @@
         <up-list-item class="mb10px" v-for="(item, index) in data" :key="index" @click="handleView(item)">
           <view class="data-item bg-white radius3px">
             <view class="p10px relative">
-              <view class="mb10px font17px">
-                {{ item.name }}
-              </view>
-
               <view class="data-item-line">
-                <text>项目类型：</text>{{ item.typeText }}
+                <text>部门：</text>{{ item.typeText }}
               </view>
               <view class="data-item-line">
-                <text>项目评级：</text>{{ item.gradeText }}
+                <text>要求日期：</text>{{ item.supportDate }}
               </view>
               <view class="data-item-line">
-                <text>客户名称：</text>{{ item.customName }}
+                <text>支持人：</text>{{ item.supportUserName }}
               </view>
               <view class="data-item-line">
-                <text>联系人姓名：</text> {{ item.contactsName }}
-              </view>
-              <view class="data-item-line">
-                <text>联系人电话：</text> {{ item.contactsPhone }}
-              </view>
-              <view class="data-item-line">
-                <text>负责人：</text> {{ item.headUserName }}
+                <text>支持时间：</text> {{ item.replyDate }}
               </view>
               <view class="data-item-line">
                 <text>状态：</text>
@@ -57,7 +47,7 @@
               </view>
             </view>
 
-            <view @tap.stop>
+            <view @tap.stop v-if="item.status === 0">
               <up-row :gutter="5">
                 <up-col :span="4">
                   <up-button type="error" size="small" @click="handleDelete(item)">删除</up-button>
@@ -99,7 +89,7 @@ export default defineComponent({
     const id = ref();
 
     const loading = ref(false);
-    const api = proxy.$api.project;
+    const api = proxy.$api.projectSupport;
     const target = ref();
     const searchParams = ref({
       projectId: computed(() => { return id.value; }),
@@ -115,7 +105,7 @@ export default defineComponent({
     const data = ref([]);
 
     const loadTarget = () => {
-      api.view(id.value, {}).then((res) => {
+      proxy.$api.project.view(id.value, {}).then((res) => {
         const json = res.result;
 
         target.value = json;
@@ -186,14 +176,18 @@ export default defineComponent({
 
     const handleCreate = () => {
       jumpTo({
-        url: '/pages/business/project/list/create',
+        url: '/pages/business/project/list/support/create',
+        params: {
+          projectId: id.value,
+        }
       })
     }
 
     const handleUpdate = (item) => {
       jumpTo({
-        url: '/pages/business/project/list/update',
+        url: '/pages/business/project/list/support/update',
         params: {
+          projectId: id.value,
           id: item.id,
         }
       })
@@ -201,7 +195,7 @@ export default defineComponent({
 
     const handleView = (item) => {
       jumpTo({
-        url: '/pages/business/project/list/view/index',
+        url: '/pages/business/project/list/support/view',
         params: {
           id: item.id,
         }
@@ -250,7 +244,7 @@ export default defineComponent({
     const handlePush = (item) => {
       uni.showModal({
         title: '是否发布',
-        content: '确认发布该回复吗？',
+        content: '确认发布该记录吗？',
         confirmColor: '#2979ff',
         success: (res) => {
           if (res.confirm) {
