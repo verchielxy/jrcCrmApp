@@ -1,4 +1,4 @@
-import common from './common';
+import commonApi from './common';
 // import home from './home/index';
 
 // customer
@@ -46,7 +46,7 @@ import reviewReceipt from './review/receipt';
 
 
 const businessApi = {
-	common,
+	commonApi,
 	// home,
 
 	// customer

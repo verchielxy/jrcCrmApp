@@ -71,10 +71,14 @@ const supportApi = {
 			formatAppend: {
 				showText: [
 					['supportUserName', 'supportUser.name'],
+					['headUserName', 'headUser.name'],
+					['projectName', 'project.name'],
 				],
 				constantText: [
 					['typeText', constant.BUSINESS.DEPARTMENTS, 'type'],
 					['statusText', constant.BUSINESS.SUPPORT.STATUS, 'status'],
+					['projectTypeText', constant.BUSINESS.PROJECT.TYPE, 'project.type'],
+					['projectGradeText', constant.BUSINESS.PROJECT.GRADE, 'project.grade'],
 				],
 				constant: [
 					['statusConstant', constant.BUSINESS.SUPPORT.STATUS, 'status'],

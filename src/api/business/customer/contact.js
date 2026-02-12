@@ -66,7 +66,8 @@ const contactApi = {
 			formatDataKey: 'result',
 			formatAppend: {
 				showText: [
-					['customName', 'custom.name']
+					['customId', 'custom.id'],
+					['customName', 'custom.name'],
 				],
 				constantText: [
 					['decisionMakerText', constant.NORMAL.YES_OR_NO, 'decisionMaker'],
