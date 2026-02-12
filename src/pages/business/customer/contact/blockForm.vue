@@ -245,7 +245,7 @@ export default defineComponent({
     };
 
     const customerGet = () => {
-      proxy.$api.customer.get(1, -1, {}).then((res) => {
+      proxy.$api.commonApi.customers({}).then((res) => {
         // console.log(res);
         let json = res.result;
         formRows.value.one.map(function (formRow) {
