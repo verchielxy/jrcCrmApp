@@ -66,7 +66,7 @@
 
         <up-cell title="软件版本" isLink>
           <template #value>
-            <text class="right-text">1.0.0</text>
+            <text class="right-text">{{ versionConfig.version }}</text>
           </template>
         </up-cell>
       </up-cell-group>
@@ -84,6 +84,7 @@ import { defineComponent, getCurrentInstance, ref, reactive, toRef, computed, on
 import { useStore } from 'vuex';
 import authentication from '@/authentication';
 import { onPullDownRefresh } from '@dcloudio/uni-app';
+import versionConfig from '@/config/version';
 
 export default defineComponent({
   components: {
@@ -121,6 +122,7 @@ export default defineComponent({
     })
 
     return {
+      versionConfig,
       user,
       handleLogout,
       handlePassword,
