@@ -1,5 +1,5 @@
 <template>
-  <uContainer style="padding-bottom: 20px;">
+  <uContainer style="padding-bottom: 70px;">
     <up-loading-page :loading="loading" loading-text="正在加载..."></up-loading-page>
 
     <view class="bg-white" v-if="target">
