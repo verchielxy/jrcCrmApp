@@ -1,24 +1,103 @@
 <template>
-  <uContainer style="padding-bottom: 70px;">
+  <uContainer style="padding-bottom: 20px;">
     <up-loading-page :loading="loading" loading-text="正在加载..."></up-loading-page>
 
-    <view class="bg-white" v-if="target">
-      <u-title class="p10px">项目详情</u-title>
-      <vViewRow
-          :rows="viewRows"
-          v-model:formData="target"
-          labelWidth="105px"
-          size="small"
-          class="mb20px"
-      >
-        <template #provinces="{ list }">
-          <view class="right">
-            <text class="ml5px" v-for="item in list">
-              {{ item.name }}
-            </text>
-          </view>
-        </template>
-      </vViewRow>
+    <view v-if="target">
+      <view class="bg-white mb10px">
+        <u-title class="p10px">项目详情</u-title>
+        <vViewRow
+            :rows="viewRows"
+            v-model:formData="target"
+            labelWidth="105px"
+            size="small"
+            class="mb20px"
+        >
+          <template #provinces="{ list }">
+            <view class="right">
+              <text class="ml5px" v-for="item in list">
+                {{ item.name }}
+              </text>
+            </view>
+          </template>
+        </vViewRow>
+      </view>
+
+      <view class="bg-white mb10px">
+        <u-title class="p10px">合同</u-title>
+        <vViewRow
+            :rows="viewContractRows"
+            v-model:formData="target"
+            labelWidth="105px"
+            size="small"
+            class="mb20px"
+        >
+          <template #payModList="{ list }">
+            <view>
+              <view class="mb5px font12px" v-for="item in list">
+                <template v-if="target.contractPayType === 1">
+                  <text class="c-info mr5px">[一次性付清]</text>
+                  <text>付款比例：{{ item.proportion }}</text>
+                  <text>付款金额：{{ item.amount }}</text>
+                  <text>备注：{{ item.remarks }}</text>
+                </template>
+
+                <template v-else-if="target.contractPayType === 2">
+                  <text class="c-info mr5px">[第{{ item.sort }}次付款]</text>
+                  <text>付款比例：{{ item.proportion }}</text>
+                  <text>付款金额：{{ item.amount }}</text>
+                  <text>备注：{{ item.remarks }}</text>
+                </template>
+              </view>
+            </view>
+          </template>
+
+          <template #contractReview="{ list }">
+            <view>
+              <view class="mb5px font12px" v-for="item in list">
+                {{ item.endTime }} {{ item.approvalStage }} - <text :class="item.status ? 'c-success':'c-error'">{{ item.opinion }}</text>
+              </view>
+            </view>
+          </template>
+        </vViewRow>
+      </view>
+
+      <view class="bg-white mb10px">
+        <u-title class="p10px">技术协议</u-title>
+        <vViewRow
+            :rows="viewTechnologyRows"
+            v-model:formData="target"
+            labelWidth="105px"
+            size="small"
+            class="mb20px"
+        >
+          <template #protocolReview="{ list }">
+            <view>
+              <view class="mb5px font12px" v-for="item in list">
+                {{ item.endTime }} {{ item.approvalStage }} - <text :class="item.status ? 'c-success':'c-error'">{{ item.opinion }}</text>
+              </view>
+            </view>
+          </template>
+        </vViewRow>
+      </view>
+
+      <view class="bg-white mb10px">
+        <u-title class="p10px">施工转接</u-title>
+        <vViewRow
+            :rows="viewConstructionRows"
+            v-model:formData="target"
+            labelWidth="105px"
+            size="small"
+            class="mb20px"
+        >
+          <template #buildTransferReview="{ list }">
+            <view>
+              <view class="mb5px font12px" v-for="item in list">
+                {{ item.endTime }} {{ item.approvalStage }} - <text :class="item.status ? 'c-success':'c-error'">{{ item.opinion }}</text>
+              </view>
+            </view>
+          </template>
+        </vViewRow>
+      </view>
     </view>
   </uContainer>
 </template>
@@ -28,6 +107,10 @@
 import {defineComponent, getCurrentInstance, ref, reactive, toRef, computed, onMounted, onBeforeMount, onUnmounted} from 'vue';
 import { useStore } from 'vuex';
 import { onLoad } from '@dcloudio/uni-app';
+import dataViewRowsIndex from './dataViewRows/index';
+import dataViewRowsContract from './dataViewRows/contract';
+import dataViewRowsTechnology from './dataViewRows/technology';
+import dataViewRowsConstruction from './dataViewRows/construction';
 
 export default defineComponent({
   components: {
@@ -42,53 +125,10 @@ export default defineComponent({
     const loading = ref(false);
     const target = ref();
 
-    const viewRows = ref([
-      {
-        title: '项目名称',
-        type: 'text',
-        name: 'name',
-      },
-      {
-        title: '项目类型',
-        type: 'text',
-        name: 'typeText',
-      },
-      {
-        title: '项目评级',
-        type: 'text',
-        name: 'gradeText',
-      },
-      {
-        title: '客户名称',
-        type: 'text',
-        name: 'customName',
-      },
-      {
-        title: '客户电话',
-        type: 'text',
-        name: 'contactsPhone',
-      },
-      {
-        title: '客户名称',
-        type: 'text',
-        name: 'customName',
-      },
-      {
-        title: '负责人',
-        type: 'text',
-        name: 'headUserName',
-      },
-      {
-        title: '线索日期',
-        type: 'text',
-        name: 'clueDate',
-      },
-      {
-        title: '备注',
-        type: 'content',
-        name: 'remarks',
-      },
-    ]);
+    const viewRows = ref(dataViewRowsIndex);
+    const viewContractRows = ref(dataViewRowsContract);
+    const viewTechnologyRows = ref(dataViewRowsTechnology);
+    const viewConstructionRows = ref(dataViewRowsConstruction);
 
     const loadTarget = () => {
       loading.value = true;
@@ -121,6 +161,9 @@ export default defineComponent({
       loading,
       target,
       viewRows,
+      viewContractRows,
+      viewTechnologyRows,
+      viewConstructionRows,
     };
   },
 });
