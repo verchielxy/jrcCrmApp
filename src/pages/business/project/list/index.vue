@@ -196,7 +196,7 @@ export default defineComponent({
 
     const handleSupport = (item) => {
       // uni.showToast({
-      //   title: '该功能开发中...',
+      //   title: '该功能暂未上线，请去pc端操作...',
       //   icon: 'none',
       //   duration: 2000
       // });
@@ -210,18 +210,18 @@ export default defineComponent({
     }
 
     const handleBudgetChecklist = (item) => {
-      uni.showToast({
-        title: '该功能开发中...',
-        icon: 'none',
-        duration: 2000
-      });
+      // uni.showToast({
+      //   title: '该功能暂未上线，请去pc端操作...',
+      //   icon: 'none',
+      //   duration: 2000
+      // });
 
-      // jumpTo({
-      //   url: '/pages/business/project/list/budgetChecklist/index',
-      //   params: {
-      //     id: item.id,
-      //   }
-      // })
+      jumpTo({
+        url: '/pages/business/project/list/budgetChecklist/index',
+        params: {
+          id: item.id,
+        }
+      })
     }
 
     const handleDelete = (item) => {
