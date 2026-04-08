@@ -189,6 +189,12 @@
           }
         },
         {
+          "path": "pages/business/project/list/budgetChecklist/create",
+          "style": {
+            "navigationBarTitleText": "项目列表 - 预算清单 - 创建"
+          }
+        },
+        {
           "path": "pages/business/engineering/support/index",
           "style": {
             "navigationBarTitleText": "工程管理 - 技术支持"
