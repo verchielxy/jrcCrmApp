@@ -5,13 +5,15 @@
     <view class="search-box bg-white p10px">
       <up-row :gutter="20">
         <up-col :span="8">
-          <up-search
-              placeholder="请输入部门名称"
-              v-model="searchParams.name"
-              :clearabled="true"
-              @search="handleSearch"
-              @custom="handleSearch"
-          ></up-search>
+          项目：<text v-if="target">{{ target.name }}</text>
+
+<!--          <up-search-->
+<!--              placeholder="请输入部门名称"-->
+<!--              v-model="searchParams.name"-->
+<!--              :clearabled="true"-->
+<!--              @search="handleSearch"-->
+<!--              @custom="handleSearch"-->
+<!--          ></up-search>-->
         </up-col>
         <up-col :span="4">
           <up-button size="small" type="primary" @click="handleCreate">新建技术支持</up-button>
