@@ -18,6 +18,17 @@ const authApi = {
       },
     });
   },
+  // 钉钉免密登录
+  dingtalkLogin(authCode, corpId) {
+    return request({
+      url: serverUrl + apiVersion + '/dingtalk/login',
+      method: 'post',
+      data: {
+        authCode: authCode,
+        corpId: corpId,
+      },
+    });
+  },
   // 退出方法
   signout() {
     return request({
@@ -68,6 +79,14 @@ const authApi = {
   resetPassword(data) {
     return request({
       url: serverUrl + apiVersion +'/resetPassword',
+      method: 'put',
+      data: data,
+    });
+  },
+  // 选择部门（多部门用户）
+  selectDepart(data) {
+    return request({
+      url: serverUrl + apiVersion + '/selectDepart',
       method: 'put',
       data: data,
     });
