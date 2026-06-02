@@ -9,7 +9,19 @@
           </view>
         </view>
 
-        <view class="login">
+        <!-- 钉钉免密登录中 -->
+        <view v-if="isDingtalkLoading" class="dingtalk-loading-box">
+          <view class="center py20px">
+            <up-loading-icon mode="circle" color="#fff" size="24"></up-loading-icon>
+            <text class="c-white mt10px db">钉钉免密登录中...</text>
+          </view>
+          <view class="center mt15px">
+            <text class="switch-link" @click="switchToPassword">使用账号密码登录</text>
+          </view>
+        </view>
+
+        <!-- 密码登录表单 -->
+        <view v-else-if="showPasswordForm" class="login">
           <view class="center py10px">
             <view class="image">
               <up-image :show-loading="true" shape="square" src="/static/images/auth/user.png" width="50px" height="50px">
@@ -58,6 +70,10 @@
           <view class="mt10px">
             <up-button type="primary" @click="handleSubmit">登 录</up-button>
           </view>
+
+          <view v-if="isDingtalkEnv" class="center mt15px">
+            <text class="switch-link" @click="retryDingtalkLogin">钉钉免密登录</text>
+          </view>
         </view>
       </view>
     </view>
@@ -72,6 +88,7 @@ import authentication from '@/authentication';
 import configs from "@/config/configs";
 import moment from 'moment';
 import authConfig from '@/config/auth'
+import { isInDingtalk, getCorpId, getClientId, requestDingtalkAuthCode } from '@/utils/dingtalkSso';
 
 export default defineComponent({
   components: {
@@ -80,6 +97,12 @@ export default defineComponent({
     const { proxy } = getCurrentInstance();
     const store = useStore();
 
+    // ============ 钉钉免密登录相关状态 ============
+    const isDingtalkEnv = ref(false);
+    const isDingtalkLoading = ref(false);
+    const showPasswordForm = ref(false);
+
+    // ============ 原有密码登录状态 ============
     const captchaKey = moment().format('YYYY-MM-DD HH:mm:ss');
     const captcha = ref();
     const formRef = ref();
@@ -111,6 +134,113 @@ export default defineComponent({
     });
 
     const redirect = ref(configs.loginOptions.redirectPage);
+
+    // ============ 钉钉免密登录方法 ============
+
+    /**
+     * 切换到密码登录表单
+     */
+    const switchToPassword = () => {
+      isDingtalkLoading.value = false;
+      showPasswordForm.value = true;
+    };
+
+    /**
+     * 重试钉钉免密登录
+     */
+    const retryDingtalkLogin = () => {
+      showPasswordForm.value = false;
+      isDingtalkLoading.value = true;
+      handleDingtalkLogin();
+    };
+
+    /**
+     * 处理钉钉免密登录核心流程
+     */
+    const handleDingtalkLogin = async () => {
+      const corpId = getCorpId();
+      const clientId = getClientId();
+
+      if (!corpId || !clientId) {
+        uni.$u.toast('钉钉配置缺失，请使用账号密码登录');
+        switchToPassword();
+        return;
+      }
+
+      try {
+        const authCode = await requestDingtalkAuthCode(corpId, clientId);
+        const res = await proxy.$api.auth.dingtalkLogin(authCode, corpId);
+
+        if (res.success) {
+          // 登录成功，存储 token
+          await authentication.signinHandle(res);
+
+          // 处理多部门用户
+          if (res.result && res.result.multiDepart === 2) {
+            const departs = res.result.departs || [];
+            const userInfo = res.result.userInfo || {};
+            handleMultiDepart(departs, userInfo);
+          } else {
+            // 单部门用户，直接跳转
+            uni.$u.toast('登录成功');
+            uni.reLaunch({
+              url: redirect.value,
+            });
+          }
+        } else {
+          uni.$u.toast(res.message || '钉钉免密登录失败，请使用账号密码登录');
+          switchToPassword();
+        }
+      } catch (err) {
+        console.error('[dingtalk-sso]', err);
+        uni.$u.toast('钉钉免密登录失败，请使用账号密码登录');
+        switchToPassword();
+      }
+    };
+
+    /**
+     * 处理多部门用户选择
+     */
+    const handleMultiDepart = (departs, userInfo) => {
+      if (!departs || departs.length === 0) {
+        uni.reLaunch({
+          url: redirect.value,
+        });
+        return;
+      }
+
+      const departNames = departs.map(d => d.departName);
+
+      uni.showActionSheet({
+        itemList: departNames,
+        title: '请选择所属部门',
+        success: (res) => {
+          const selected = departs[res.tapIndex];
+          proxy.$api.auth.selectDepart({
+            username: userInfo.username,
+            orgCode: selected.orgCode,
+          }).then(() => {
+            // 重新获取用户信息
+            authentication.getUserInfo().then(() => {
+              uni.$u.toast('登录成功');
+              uni.reLaunch({
+                url: redirect.value,
+              });
+            });
+          }).catch((err) => {
+            uni.$u.toast(err.message || '部门选择失败');
+          });
+        },
+        fail: () => {
+          // 用户取消选择，默认跳转
+          uni.reLaunch({
+            url: redirect.value,
+          });
+        },
+      });
+    };
+
+    // ============ 原有密码登录方法 ============
 
     const captchaRefresh = () => {
       proxy.$api.auth.captcha(captchaKey).then((res) => {
@@ -172,6 +302,18 @@ export default defineComponent({
         }
       })
 
+      // 检测钉钉环境
+      isDingtalkEnv.value = isInDingtalk();
+
+      if (isDingtalkEnv.value) {
+        // 在钉钉内，自动触发免密登录
+        isDingtalkLoading.value = true;
+        handleDingtalkLogin();
+      } else {
+        // 不在钉钉内，直接显示密码表单
+        showPasswordForm.value = true;
+      }
+
       captchaRefresh();
     });
 
@@ -183,6 +325,12 @@ export default defineComponent({
       formData,
       captchaRefresh,
       handleSubmit,
+      // 钉钉相关
+      isDingtalkEnv,
+      isDingtalkLoading,
+      showPasswordForm,
+      switchToPassword,
+      retryDingtalkLogin,
     }
   },
 });
@@ -199,7 +347,6 @@ export default defineComponent({
   display: block;
   max-width: 100%;
   position: relative;
-  // margin-bottom: -20px;
 
   .title-text {
     color: #fff;
@@ -233,5 +380,22 @@ export default defineComponent({
 }
 .u-border-bottom {
   border-color: rgba(255,255,255,0.8)!important;
+}
+.switch-link {
+  color: #fff;
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
+  opacity: 0.9;
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+.dingtalk-loading-box {
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 15px;
+  text-align: center;
 }
 </style>
