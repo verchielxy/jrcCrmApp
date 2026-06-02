@@ -7,6 +7,9 @@ export default defineConfig({
     uni(),
   ],
   envPrefix: ['VITE', 'VUE'], // 环境变量前缀
+  optimizeDeps: {
+    exclude: ['dingtalk-jsapi'],
+  },
   build: {
     outDir: 'dist',
     minify: 'terser',
