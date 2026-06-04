@@ -19,7 +19,7 @@ const scheduleConfig = {
 	},
 
 	canOperate: (schedule, user) => {
-		return schedule.createBy.id === user.id;
+		return schedule.createBy && schedule.createBy.id === user.id;
 	},
 };
 
