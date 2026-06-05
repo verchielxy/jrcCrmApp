@@ -12,9 +12,13 @@ export default createStore({
   },
   state: () => {
     return {
+      currentItem: null,
     }
   },
   mutations: {
+    setCurrentItem(state, item) {
+      state.currentItem = item;
+    }
   },
   actions: {},
   getters: {
