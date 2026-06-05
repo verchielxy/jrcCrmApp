@@ -339,87 +339,51 @@
           }
         },
         {
-          "path": "pages/business/review/contract/sale/index",
+          "path": "pages/business/review/pending/index",
           "style": {
-            "navigationBarTitleText": "销售合同审批"
+            "navigationBarTitleText": "审批中心 - 待处理的"
           }
         },
         {
-          "path": "pages/business/review/contract/sale/view",
+          "path": "pages/business/review/pending/view",
           "style": {
-            "navigationBarTitleText": "工程合同审批 - 详情"
+            "navigationBarTitleText": "审批中心 - 待处理的 - 详情"
           }
         },
         {
-          "path": "pages/business/review/contract/engineering/index",
+          "path": "pages/business/review/processed/index",
           "style": {
-            "navigationBarTitleText": "工程合同审批"
+            "navigationBarTitleText": "审批中心 - 已处理的"
           }
         },
         {
-          "path": "pages/business/review/contract/engineering/view",
+          "path": "pages/business/review/processed/view",
           "style": {
-            "navigationBarTitleText": "销售合同审批 - 详情"
+            "navigationBarTitleText": "审批中心 - 已处理的 - 详情"
           }
         },
         {
-          "path": "pages/business/review/contract/purchase/index",
+          "path": "pages/business/review/initiated/index",
           "style": {
-            "navigationBarTitleText": "采购合同审批"
+            "navigationBarTitleText": "审批中心 - 我发起的"
           }
         },
         {
-          "path": "pages/business/review/contract/purchase/view",
+          "path": "pages/business/review/initiated/view",
           "style": {
-            "navigationBarTitleText": "采购合同审批 - 详情"
+            "navigationBarTitleText": "审批中心 - 我发起的 - 详情"
           }
         },
         {
-          "path": "pages/business/review/technology/index",
+          "path": "pages/business/review/cc/index",
           "style": {
-            "navigationBarTitleText": "技术协议审批"
+            "navigationBarTitleText": "审批中心 - 抄送我的"
           }
         },
         {
-          "path": "pages/business/review/technology/view",
+          "path": "pages/business/review/cc/view",
           "style": {
-            "navigationBarTitleText": "技术协议审批 - 详情"
-          }
-        },
-        {
-          "path": "pages/business/review/construction/index",
-          "style": {
-            "navigationBarTitleText": "施工转接审批"
-          }
-        },
-        {
-          "path": "pages/business/review/construction/view",
-          "style": {
-            "navigationBarTitleText": "施工转接审批 - 详情"
-          }
-        },
-        {
-          "path": "pages/business/review/materialApply/index",
-          "style": {
-            "navigationBarTitleText": "物料申请审批"
-          }
-        },
-        {
-          "path": "pages/business/review/materialApply/view",
-          "style": {
-            "navigationBarTitleText": "物料申请审批 - 详情"
-          }
-        },
-        {
-          "path": "pages/business/review/receipt/index",
-          "style": {
-            "navigationBarTitleText": "付款申请审批"
-          }
-        },
-        {
-          "path": "pages/business/review/receipt/view",
-          "style": {
-            "navigationBarTitleText": "付款申请审批 - 详情"
+            "navigationBarTitleText": "审批中心 - 抄送我的 - 详情"
           }
         }
     ],
