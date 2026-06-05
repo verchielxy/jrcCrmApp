@@ -53,7 +53,6 @@ const commonApi = {
 			},
 		});
 	},
-
 };
 
 export default commonApi;

@@ -1,4 +1,5 @@
 import commonApi from './common';
+import workFlow from './workFlow/index';
 // import home from './home/index';
 
 // customer
@@ -47,6 +48,7 @@ import reviewReceipt from './review/receipt';
 
 const businessApi = {
 	commonApi,
+	workFlow,
 	// home,
 
 	// customer

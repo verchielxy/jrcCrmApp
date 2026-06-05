@@ -91,6 +91,7 @@ const projectApi = {
 				let json = res.result;
 
 				if (json.contract) {
+					json.contractTaskId = json.contract?.insId;
 					json.contractTaxRate1 = json.contract?.taxRate1;
 					json.contractTaxRate2 = json.contract?.taxRate2;
 					json.contractTaxRate3 = json.contract?.taxRate3;
@@ -106,6 +107,7 @@ const projectApi = {
 					}
 				}
 				if (json.protocol) {
+					json.protocolTaskId = json.protocol?.insId;
 					json.protocolRemarks = json.protocol?.remarks;
 					json.protocolOpLogList = json.protocol?.opLogList;
 
@@ -114,6 +116,7 @@ const projectApi = {
 					}
 				}
 				if (json.buildTransfer) {
+					json.buildTransferTaskId = json.buildTransfer?.insId;
 					json.buildTransferStartTime = json.buildTransfer?.startTime;
 					json.buildTransferEndTime = json.buildTransfer?.endTime;
 					json.buildTransferAddress = json.buildTransfer?.address;
