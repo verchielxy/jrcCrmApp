@@ -1,21 +1,27 @@
 <template>
   <view class="timeline-container">
-    <view
-        v-for="(item, index) in workFlowData"
-        :key="item.id"
-        class="timeline-item"
-    >
+    <view v-for="(item, index) in workFlowData" :key="item.id" class="timeline-item">
       <view class="timeline-left">
         <view class="node-icon-wrap">
-          <view v-if="item.status === 'completed'" class="icon-circle bg-green">
-            <u-icon name="checkmark" color="#ffffff" size="16"></u-icon>
-          </view>
-          <view v-else-if="item.status === 'processing'" class="icon-circle bg-blue-loading">
-            <view class="loading-quarter"></view>
-          </view>
-          <view v-else class="icon-circle bg-gray">
-            <view class="dot-gray"></view>
-          </view>
+          <template v-if="statusConfigs[item.status]">
+            <view class="icon-circle" :style="{
+              borderColor: statusConfigs[item.status].color,
+            }">
+              <view class="inner" :style="{
+                backgroundColor: statusConfigs[item.status].color,
+              }">
+                <u-icon :name="statusConfigs[item.status].uIcon" color="#ffffff" size="16" v-if="statusConfigs[item.status].uIcon"></u-icon>
+              </view>
+            </view>
+          </template>
+
+          <template v-else>
+            <view class="icon-circle">
+              <view class="inner">
+                <view class="dot-gray"></view>
+              </view>
+            </view>
+          </template>
         </view>
 
         <view
@@ -28,19 +34,17 @@
         <view class="right-header">
           <text class="node-name">{{ item.nodeName }}</text>
 
-          <view
-              class="status-tag"
-              :class="item.status === 'completed' ? 'tag-success' : 'tag-primary'"
-          >
-            {{ item.status === 'completed' ? '已通过' : '审批中' }}
-          </view>
+          <template v-if="statusConfigs[item.status]">
+            <view :class="['status-tag', 'status-tag-' + statusConfigs[item.status].key]">
+              {{ statusConfigs[item.status].title }}
+            </view>
+          </template>
         </view>
 
         <view class="user-info-row" v-if="item.users && item.users.length">
-          <view
-              class="avatar"
-              :class="item.status === 'completed' ? 'avatar-orange' : 'avatar-blue'"
-          >
+          <view class="avatar" :style="{
+            backgroundColor: avatarColors[index % avatarColors.length],
+          }">
             {{ getAvatarName(item.users[0]) }}
           </view>
           <text class="user-name">{{ item.users.join(', ') }}</text>
@@ -80,6 +84,33 @@ export default defineComponent({
 
     const workFlowData = toRef(props, 'workFlowData');
 
+    const statusConfigs = ref({
+      pending: {
+        key: 'pending',
+        title: '审批中',
+        color: '#1677ff',
+        uIcon: 'play-right-fill',
+      },
+      completed: {
+        key: 'completed',
+        title: '已通过',
+        color: '#52c41a',
+        uIcon: 'checkmark',
+      },
+      rejected: {
+        key: 'rejected',
+        title: '已驳回',
+        color: '#ff4d4f',
+        uIcon: 'close',
+      },
+    });
+    const avatarColors = ref([
+      '#1677FF',
+      '#52C41A',
+      '#FAAD14',
+      '#EB2F96',
+    ]);
+
     const getAvatarName = (name) => {
       if (!name) return '';
       return name.length > 2 ? name.substring(name.length - 2) : name;
@@ -93,6 +124,8 @@ export default defineComponent({
 
     return {
       workFlowData,
+      statusConfigs,
+      avatarColors,
       getAvatarName,
     };
   },
@@ -131,34 +164,31 @@ export default defineComponent({
   }
 
   .icon-circle {
+    display: block;
     width: 52rpx;
     height: 52rpx;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-  }
+    border-width: 2px;
+    border-style: solid;
+    background-color: #fff;
 
-  .bg-green {
-    background-color: #52c41a;
-    border: 4rpx solid #a0d911;
-  }
-
-  .bg-blue-loading {
-    border: 6rpx solid #e6f7ff;
-    border-top: 6rpx solid #1890ff;
-    animation: rotate 1.5s linear infinite;
-  }
-
-  .bg-gray {
-    background-color: #f5f5f5;
-    border: 2rpx solid #d9d9d9;
-    .dot-gray {
-      width: 16rpx;
-      height: 16rpx;
+    .inner {
+      display: flex;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
-      background-color: #bfbfbf;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      border: 2px solid #fff;
+      background-color: #fff;
+
+      .dot-gray {
+        width: 16rpx;
+        height: 16rpx;
+        border-radius: 50%;
+        background-color: #bfbfbf;
+      }
     }
   }
 
@@ -195,16 +225,23 @@ export default defineComponent({
       padding: 4rpx 16rpx;
       border-radius: 8rpx;
       font-weight: 500;
+      border-width: 1px;
+      border-style: solid;
     }
-    .tag-success {
-      background-color: #f6ffed;
+    .status-tag-pending {
+      color: #1677ff;
+      background-color: #e6f4ff;
+      border-color: #91caff;
+    }
+    .status-tag-rejected {
+      color: #ff4d4f;
+      background-color: #fff2f0;
+      border-color: #ffccc7;
+    }
+    .status-tag-completed {
       color: #52c41a;
-      border: 1px solid #b7eb8f;
-    }
-    .tag-primary {
-      background-color: #e6f7ff;
-      color: #1890ff;
-      border: 1px solid #91d5ff;
+      background-color: #f6ffed;
+      border-color: #b7eb8f;
     }
   }
 
@@ -225,9 +262,6 @@ export default defineComponent({
       font-weight: 500;
       margin-right: 16rpx;
     }
-    .avatar-orange { background-color: #fa8c16; }
-    .avatar-blue { background-color: #1890ff; }
-
     .user-name {
       font-size: 28rpx;
       color: #595959;
