@@ -61,25 +61,29 @@ const workFlowApi = {
 			},
 		});
 	},
-
-	create(data) {
+	// 同意
+	agree(id, data) {
 		return request({
-			url: serverUrl + apiVersion + '',
+			url: serverUrl + apiVersion + '/task/{id}/complete',
 			method: 'post',
-			data: {
-				...data,
-			},
-		});
-	},
-	update(id, data) {
-		return request({
-			url: serverUrl + apiVersion + '/{id}',
-			method: 'put',
 			params: {
 				id: id,
 			},
 			data: {
-				...data,
+				...data, // { message: '' }
+			},
+		});
+	},
+	disagree(id, data) {
+		return request({
+			url: serverUrl + apiVersion + '/task/{id}/reject',
+			method: 'post',
+			params: {
+				id: id,
+			},
+			data: {
+				mode: 'APPLICANT',
+				...data, // { mode: 'APPLICANT', reason: '' }
 			},
 		});
 	},
