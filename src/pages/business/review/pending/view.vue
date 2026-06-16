@@ -149,8 +149,8 @@ export default defineComponent({
 
       const stored = uni.getStorageSync('currentItem');
       if (stored) {
-        const item = JSON.parse(stored)
-        store.commit('setCurrentItem', item)
+        const item = JSON.parse(stored);
+        store.commit('setCurrentItem', item);
         target.value = item;
       }
     })
@@ -158,6 +158,7 @@ export default defineComponent({
     return {
       id,
       api,
+      target,
       modalShow,
       modalType,
       modalTitle,

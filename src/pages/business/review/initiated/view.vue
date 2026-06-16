@@ -45,7 +45,6 @@ export default defineComponent({
     const id = ref();
 
     const api = proxy.$api.workFlow;
-    const loading = ref(false);
     const target = ref();
     const modalShow = ref(false);
     const modalType = ref(1);
@@ -65,8 +64,8 @@ export default defineComponent({
 
       const stored = uni.getStorageSync('currentItem');
       if (stored) {
-        const item = JSON.parse(stored)
-        store.commit('setCurrentItem', item)
+        const item = JSON.parse(stored);
+        store.commit('setCurrentItem', item);
         target.value = item;
       }
     })
@@ -74,6 +73,7 @@ export default defineComponent({
     return {
       id,
       api,
+      target,
       modalShow,
       modalType,
       modalTitle,

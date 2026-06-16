@@ -23,17 +23,36 @@ export default defineComponent({
     const id = ref();
 
     const api = proxy.$api.workFlow;
+    const target = ref();
+    const modalShow = ref(false);
+    const modalType = ref(1);
+    const modalTitle = ref();
+    const modalParams = ref({
+      reason: null,
+    });
 
     onMounted(() => {
     });
 
     onLoad((options) => {
       id.value = options.id;
+
+      const stored = uni.getStorageSync('currentItem');
+      if (stored) {
+        const item = JSON.parse(stored);
+        store.commit('setCurrentItem', item);
+        target.value = item;
+      }
     })
 
     return {
       id,
       api,
+      target,
+      modalShow,
+      modalType,
+      modalTitle,
+      modalParams,
     };
   },
 });
