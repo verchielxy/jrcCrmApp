@@ -23,35 +23,9 @@
       ></blockWorkFlow>
     </view>
 
-    <view class="operation-box bg-white p20px" v-if="target">
-      <up-row :gutter="20">
-        <up-col :span="6">
-          <up-button type="success" @click="handleAgree">同意</up-button>
-        </up-col>
-        <up-col :span="6">
-          <up-button @click="handleDisagree">不同意</up-button>
-        </up-col>
-      </up-row>
+    <view class="operation-box" v-if="target">
+      <slot name="operationBox" :target="target"></slot>
     </view>
-
-    <up-modal
-        :show="rejectModalShow"
-        title="填写驳回理由"
-        showCancelButton
-        @confirm="handleReview(0)"
-        @cancel="rejectModalShow = false"
-    >
-      <view class="full-width">
-        <up-textarea
-            v-model="rejectReason"
-            placeholder="请输入不同意的具体原因..."
-            count
-            maxlength="200"
-            height="100"
-            :fixed="true"
-        ></up-textarea>
-      </view>
-    </up-modal>
   </uContainer>
 </template>
 
@@ -93,7 +67,7 @@ export default defineComponent({
         target.value.viewRows.map((item) => {
           rows.push({
             title: item.label,
-            type: 'text',
+            type: item.type === 'file' ? 'file' : 'text',
             name: item.key,
           });
         })
@@ -104,12 +78,10 @@ export default defineComponent({
     const viewData = computed(() => {
       return target.value ? target.value.valueData : {};
     });
-    const rejectModalShow = ref(false);
-    const rejectReason = ref('');
 
     const getTargetWorkFlowData = () => {
       loading.value = true;
-      apiView(id.value, {}).then((res) => {
+      apiView(target.value.instanceId, {}).then((res) => {
         const json = res.result;
 
         targetWorkFlowData.value = json;
@@ -120,66 +92,6 @@ export default defineComponent({
         }, 500);
       });
     }
-
-    const handleAgree = () => {
-      uni.showModal({
-        title: '审批通过',
-        content: '确认批准该条申请吗？',
-        confirmColor: '#2979ff',
-        success: (res) => {
-          if (res.confirm) {
-            // 调用后端接口
-            handleReview(1);
-          }
-        }
-      });
-    };
-
-    const handleDisagree = () => {
-      rejectReason.value = ''; // 重置内容
-      rejectModalShow.value = true;
-    };
-
-    const handleReview = (type) => {
-      if (type === 0 && !rejectReason.value) {
-        uni.showToast({
-          title: '不同意时，请输入不同意的理由和意见',
-          icon: 'none', // 'none' 不显示图标，'error' 在某些平台显示感叹号/叉号
-          duration: 2000
-        });
-      } else {
-
-        uni.showLoading({
-          title: '正在提交...',
-          mask: true
-        });
-
-        api.review(id.value, {
-          opinion: rejectReason.value,
-          result: type,
-        }).then((res) => {
-          let json = res.result;
-
-          uni.hideLoading();
-
-          uni.showToast({
-            title: '保存成功',
-            icon: 'success', // 显示绿色的勾
-            duration: 2000,
-            success: () => {
-              // 如果需要保存后返回上一页，可以在这里写逻辑
-              setTimeout(() => {
-                uni.$emit('REFRESH_LIST');
-                uni.navigateBack();
-              }, 1000);
-            }
-          });
-        }).catch((error) => {
-        }).finally(() => {
-          loading.value = false;
-        });
-      }
-    };
 
     onMounted(() => {
       getTargetWorkFlowData();
@@ -203,11 +115,6 @@ export default defineComponent({
       targetWorkFlowData,
       viewRows,
       viewData,
-      rejectReason,
-      rejectModalShow,
-      handleReview,
-      handleAgree,
-      handleDisagree,
     };
   },
 });
@@ -220,5 +127,6 @@ export default defineComponent({
   left: 0;
   right: 0;
   border-top: #eee solid 1px;
+  z-index: 999;
 }
 </style>
