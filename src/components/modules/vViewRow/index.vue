@@ -30,6 +30,15 @@
         </template>
       </up-cell>
 
+      <up-cell :title="item.title" :title-style="{ 'width': labelWidth, 'flex': 'none' }" v-else-if="item.type === 'file'">
+        <template #value>
+          <text class="right-text" @click="handleFilePreview(formData[item.name])" v-if="formData[item.name]">
+            <MaterialSymbol class="middle-icon c-primary" name="visibility" :size="20" type="sharp"></MaterialSymbol>
+            预览
+          </text>
+        </template>
+      </up-cell>
+
       <up-cell :title="item.title" :title-style="{ 'width': labelWidth, 'flex': 'none' }" v-else-if="item.type === 'content'">
         <template #value>
           <text class="right-text">{{ formData[item.name] }}</text>
@@ -133,6 +142,24 @@ export default defineComponent({
       });
     }
 
+    const handleFilePreview = (url) => {
+      // Base64编码
+      const serverUrl = __SERVER_URL__;
+      const fullUrl = `${serverUrl}/sys/common/static/${url}`;
+      const base64Url = btoa(encodeURIComponent(fullUrl).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode('0x' + p1)));
+      const link = `http://116.172.73.210:9012/onlinePreview?url=${base64Url}`;
+
+      // #ifdef H5
+      window.open(link, '_blank');
+      // #endif
+
+      // #ifdef APP-PLUS
+      uni.navigateTo({
+        url: `/pages/webview/index?url=${encodeURIComponent(link)}`
+      });
+      // #endif
+    }
+
     return {
       rows,
       formData,
@@ -141,6 +168,7 @@ export default defineComponent({
       labelWidth,
       componentClass,
       handleDownloadClick,
+      handleFilePreview,
     };
   },
 });
