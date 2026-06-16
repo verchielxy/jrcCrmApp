@@ -42,7 +42,7 @@
 
         <up-cell title="用户部门">
           <template #value>
-            <text class="right-text">{{ user.department.departName }}</text>
+            <text class="right-text">{{ user.department?.departName }}</text>
           </template>
         </up-cell>
 
