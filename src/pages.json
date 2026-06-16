@@ -385,6 +385,12 @@
           "style": {
             "navigationBarTitleText": "审批中心 - 抄送我的 - 详情"
           }
+        },
+        {
+          "path": "pages/webview/index",
+          "style": {
+            "navigationBarTitleText": "文件预览"
+          }
         }
     ],
 	"tabBar": {
