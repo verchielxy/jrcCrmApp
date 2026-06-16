@@ -142,12 +142,48 @@ export default defineComponent({
       });
     }
 
+    const safeBtoa = (str) => {
+      // 1. 核心：强行将 UTF-8 字符串转为单字节乱码映射（和你的 H5 逻辑完全锁死一致）
+      const encodedStr = encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => {
+        return String.fromCharCode('0x' + p1);
+      });
+
+      // #ifdef H5
+      // H5 端直接使用标准浏览器 btoa
+      return btoa(encodedStr);
+      // #endif
+
+      // #ifdef APP-PLUS
+      if (uni.getSystemInfoSync().platform === 'android') {
+        // 安卓原生 Base64
+        const Base64 = plus.android.importClass("android.util.Base64");
+        // 【关键改动】：这里必须用 "ISO-8859-1" 获取单字节，不能用 "UTF-8"
+        const bytes = plus.android.invoke(encodedStr, "getBytes", "ISO-8859-1");
+        // Base64.NO_WRAP = 2
+        return Base64.encodeToString(bytes, 2);
+      } else {
+        // iOS 原生 Base64
+        const NSData = plus.ios.importClass("NSData");
+        const NSString = plus.ios.importClass("NSString");
+        const nsStr = NSString.alloc().initWithString(encodedStr);
+        // 【关键改动】：5 代表 NSStringEncoding 里的 NSISOLatin1StringEncoding (即 ISO-8859-1)
+        const data = nsStr.dataUsingEncoding(5);
+        return data.base64EncodedStringWithOptions(0);
+      }
+      // #endif
+    };
+
     const handleFilePreview = (url) => {
       // Base64编码
       const serverUrl = __SERVER_URL__;
+      console.log("serverUrl：", serverUrl);
+
       const fullUrl = `${serverUrl}/sys/common/static/${url}`;
-      const base64Url = btoa(encodeURIComponent(fullUrl).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode('0x' + p1)));
+      // const base64Url = btoa(encodeURIComponent(fullUrl).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode('0x' + p1)));
+      const base64Url = safeBtoa(fullUrl);
       const link = `http://116.172.73.210:9012/onlinePreview?url=${base64Url}`;
+
+      console.log("准备预览的最终链接：", link);
 
       // #ifdef H5
       window.open(link, '_blank');
@@ -155,7 +191,11 @@ export default defineComponent({
 
       // #ifdef APP-PLUS
       uni.navigateTo({
-        url: `/pages/webview/index?url=${encodeURIComponent(link)}`
+        url: `/pages/webview/index?url=${encodeURIComponent(link)}`,
+        fail: (err) => {
+          console.error("页面跳转失败，请检查 pages.json 中是否注册了该页面：", err);
+          uni.showToast({ title: '打开预览失败', icon: 'none' });
+        }
       });
       // #endif
     }
