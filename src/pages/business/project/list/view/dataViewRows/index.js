@@ -20,14 +20,14 @@ export default [
 		name: 'customName',
 	},
 	{
-		title: '客户电话',
+		title: '联系人姓名',
 		type: 'text',
-		name: 'contactsPhone',
+		name: 'contactsName',
 	},
 	{
-		title: '客户名称',
+		title: '联系人电话',
 		type: 'text',
-		name: 'customName',
+		name: 'contactsPhone',
 	},
 	{
 		title: '负责人',
