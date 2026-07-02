@@ -119,12 +119,6 @@
         <blockWorkFlow
             :workFlowData="workFlowModalData"
         ></blockWorkFlow>
-        <blockWorkFlow
-            :workFlowData="workFlowModalData"
-        ></blockWorkFlow>
-        <blockWorkFlow
-            :workFlowData="workFlowModalData"
-        ></blockWorkFlow>
       </view>
     </scroll-view>
   </up-modal>
