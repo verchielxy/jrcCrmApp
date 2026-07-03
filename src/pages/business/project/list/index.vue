@@ -62,10 +62,10 @@
                 <up-col :span="3">
                   <up-button type="error" size="small" @click="handleDelete(item)">删除</up-button>
                 </up-col>
-                <up-col :span="3">
+                <up-col :span="3" v-if="projectConfig.canSupport(item.status)">
                   <up-button type="primary" size="small" @click="handleSupport(item)">技术支持</up-button>
                 </up-col>
-                <up-col :span="3">
+                <up-col :span="3" v-if="projectConfig.canBudgetChecklist(item.status)">
                   <up-button type="primary" size="small" @click="handleBudgetChecklist(item)">预算清单</up-button>
                 </up-col>
                 <up-col :span="3">
