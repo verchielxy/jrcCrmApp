@@ -64,16 +64,16 @@
               </up-row>
 
               <up-row :gutter="5">
-                <up-col :span="4"  v-if="engineeringConfig.project.canMaterialApply(item.status)">
-                  <up-button type="primary" size="small" @click="handleUndeveloped(item)">物料申请</up-button>
+                <up-col :span="4">
+                  <up-button type="primary" size="small" @click="handleUndeveloped(item)" :disabled="!engineeringConfig.project.canMaterialApply(item.status)">物料申请</up-button>
                 </up-col>
-                <up-col :span="4" v-if="engineeringConfig.project.canMaterialVerify(item.status)">
-                  <up-button type="primary" size="small" @click="handleUndeveloped(item)">物料到场核验</up-button>
+                <up-col :span="4">
+                  <up-button type="primary" size="small" @click="handleUndeveloped(item)" :disabled="!engineeringConfig.project.canMaterialVerify(item.status)">物料到场核验</up-button>
                 </up-col>
                 <up-col :span="4" v-if="engineeringConfig.project.canConstructionEnd(item.status)">
                   <up-button type="error" size="small" @click="handleEnd(item)">施工结束</up-button>
                 </up-col>
-                <up-col :span="4" v-if="engineeringConfig.project.canConstructionAcceptance(item.status)">
+                <up-col :span="4" v-else-if="engineeringConfig.project.canConstructionAcceptance(item.status)">
                   <up-button type="primary" size="small" @click="handleUndeveloped(item)">施工验收</up-button>
                 </up-col>
               </up-row>
@@ -202,36 +202,6 @@ export default defineComponent({
       })
     }
 
-    const handleSupport = (item) => {
-      // uni.showToast({
-      //   title: '该功能暂未上线，请去pc端操作...',
-      //   icon: 'none',
-      //   duration: 2000
-      // });
-
-      jumpTo({
-        url: '/pages/business/project/list/support/index',
-        params: {
-          id: item.id,
-        }
-      })
-    }
-
-    const handleBudgetChecklist = (item) => {
-      // uni.showToast({
-      //   title: '该功能暂未上线，请去pc端操作...',
-      //   icon: 'none',
-      //   duration: 2000
-      // });
-
-      jumpTo({
-        url: '/pages/business/project/list/budgetChecklist/index',
-        params: {
-          id: item.id,
-        }
-      })
-    }
-
     const handleEnd = (item) => {
       uni.showModal({
         title: '施工结束',
@@ -313,8 +283,6 @@ export default defineComponent({
       handleMeeting,
       handleConstructionPeriod,
       handleView,
-      handleSupport,
-      handleBudgetChecklist,
       handleEnd,
       handleUndeveloped,
     };
