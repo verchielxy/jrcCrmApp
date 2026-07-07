@@ -113,6 +113,8 @@
             :list="item.list"
             :inputAlign="item.inputAlign"
             :fontSize="item.fontSize"
+            :mode="item.mode"
+            :maxTagCount="item.maxTagCount"
             :disabled="item.disabled"
             @confirm="(label, key, selectItem) => { selectConfirm(item, label, key, selectItem) }"
         ></vSelect>
