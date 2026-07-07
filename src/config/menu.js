@@ -66,6 +66,13 @@ const menuConfig = {
 					image: '/static/images/home/budgetChecklist.png',
 					name: '预算清单',
 				},
+				{
+					key: '/manage/engineering/project',
+					url: '/pages/business/engineering/project/index',
+					icon: 'auto_awesome_mosaic',
+					image: '/static/images/home/projectList.png',
+					name: '项目列表',
+				},
 			],
 		},
 		{
