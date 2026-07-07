@@ -231,6 +231,30 @@
           }
         },
         {
+          "path": "pages/business/engineering/project/index",
+          "style": {
+            "navigationBarTitleText": "项目列表"
+          }
+        },
+        {
+          "path": "pages/business/engineering/project/meeting",
+          "style": {
+            "navigationBarTitleText": "项目列表 - 项目启动会"
+          }
+        },
+        {
+          "path": "pages/business/engineering/project/constructionPeriod",
+          "style": {
+            "navigationBarTitleText": "项目列表 - 施工实际工期"
+          }
+        },
+        {
+          "path": "pages/business/engineering/project/view/index",
+          "style": {
+            "navigationBarTitleText": "项目列表 - 详情"
+          }
+        },
+        {
           "path": "pages/business/research/support/index",
           "style": {
             "navigationBarTitleText": "研发管理 - 技术支持"
