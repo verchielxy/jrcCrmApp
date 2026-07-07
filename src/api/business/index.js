@@ -20,6 +20,7 @@ import schedule from './schedule/index';
 import engineeringSupport from './engineering/support';
 import engineeringBudget from './engineering/budget';
 import engineeringBudgetItem from './engineering/budgetItem';
+import engineeringProject from './engineering/project';
 
 // research
 import researchSupport from './research/support';
@@ -69,6 +70,7 @@ const businessApi = {
 	engineeringSupport,
 	engineeringBudget,
 	engineeringBudgetItem,
+	engineeringProject,
 
 	// research,
 	researchSupport,
