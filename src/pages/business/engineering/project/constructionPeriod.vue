@@ -97,7 +97,6 @@ export default defineComponent({
           target.value = json;
           formRows.value.one.map(function (item) {
             if (target.value[item.name]) {
-              console.log(item.name)
               formData.value[item.name] = target.value[item.name];
             }
           });
