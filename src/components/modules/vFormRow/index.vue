@@ -27,6 +27,7 @@
             :fontSize="item.fontSize"
             :maxlength="item.maxlength"
             :disabled="item.disabled"
+            @change="(value) => inputChange(item, value)"
         ></up-input>
         <up-number-box
             v-else-if="item.type === 'numberBox'"
@@ -487,8 +488,20 @@ export default defineComponent({
       context.emit('update:formData', formData);
     }
 
+    const inputChange = (item, value) => {
+      context.emit('formDataChange', formData);
+
+      if (item.changeEvent) {
+        context.emit(item.changeEvent.name, value);
+      }
+    };
+
     const radioButtonChange = (item, index) => {
       formData.value[item.name] = item.list[index].key;
+
+      if (item.changeEvent) {
+        context.emit(item.changeEvent.name, item, index);
+      }
     }
 
     const imageUploadChange = (item, file, files) => {
@@ -545,6 +558,7 @@ export default defineComponent({
       selectConfirm,
       upDatePickerConfirm,
       upDatePickerRangeConfirm,
+      inputChange,
       radioButtonChange,
       imageUploadChange,
       fileUploadChange,
