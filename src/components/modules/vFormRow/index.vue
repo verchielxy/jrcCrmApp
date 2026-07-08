@@ -264,6 +264,9 @@
             :uploadSize="item.uploadSize"
             @uploadChange="(file, files) => fileUploadChange(item, file, files)"
         ></fileUpload>
+        <template v-else-if="item.type === 'slot'">
+          <slot :name="item.name"></slot>
+        </template>
       </up-form-item>
     </template>
   </view>
