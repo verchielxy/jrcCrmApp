@@ -2,7 +2,10 @@
     "version" : "1.0",
     "configurations" : [
         {
-            "playground" : "standard",
+            "customPlaygroundType" : "device",
+            "localRepoPath" : "/Users/xuyan/Sites/vue/jrcCrmApp",
+            "packageName" : "com.chinamworld.main",
+            "playground" : "custom",
             "type" : "uni-app:app-android"
         }
     ]
