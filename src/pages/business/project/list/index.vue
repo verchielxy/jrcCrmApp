@@ -58,18 +58,33 @@
             </view>
 
             <view @tap.stop>
-              <up-row :gutter="5">
+              <up-row class="mb10px" :gutter="5">
                 <up-col :span="3">
                   <up-button type="error" size="small" @click="handleDelete(item)">删除</up-button>
                 </up-col>
-                <up-col :span="3" v-if="projectConfig.canSupport(item.status)">
-                  <up-button type="primary" size="small" @click="handleSupport(item)">技术支持</up-button>
+                <up-col :span="3">
+                  <up-button type="primary" size="small" @click="handleSupport(item)" :disabled="!projectConfig.canSupport(item.status)">技术支持</up-button>
                 </up-col>
-                <up-col :span="3" v-if="projectConfig.canBudgetChecklist(item.status)">
-                  <up-button type="primary" size="small" @click="handleBudgetChecklist(item)">预算清单</up-button>
+                <up-col :span="3">
+                  <up-button type="primary" size="small" @click="handleBudgetChecklist(item)" :disabled="!projectConfig.canBudgetChecklist(item.status)">预算清单</up-button>
                 </up-col>
                 <up-col :span="3">
                   <up-button type="primary" size="small" @click="handleUpdate(item)">编辑</up-button>
+                </up-col>
+              </up-row>
+
+              <up-row :gutter="5">
+                <up-col :span="3">
+                  <up-button type="primary" size="small" @click="handleContract(item)" :disabled="!projectConfig.canContract(item.status)">销售合同上传</up-button>
+                </up-col>
+                <up-col :span="3">
+                  <up-button type="primary" size="small" @click="handleTechnology(item)" :disabled="!projectConfig.canTechnology(item.status, item)">技术协议上传</up-button>
+                </up-col>
+                <up-col :span="3">
+                  <up-button type="primary" size="small" @click="handleConstruction(item)" :disabled="!projectConfig.canConstruction(item.status)">施工转接上传</up-button>
+                </up-col>
+                <up-col :span="3">
+                  <up-button type="primary" size="small" @click="handleUndeveloped(item)" :disabled="!projectConfig.canSettlement(item.status, item.financeSettlementEnd, item.settlementStatus)">项目决算</up-button>
                 </up-col>
               </up-row>
             </view>
@@ -263,6 +278,41 @@ export default defineComponent({
       });
     }
 
+    const handleContract = (item) => {
+      jumpTo({
+        url: '/pages/business/project/list/contract',
+        params: {
+          id: item.id,
+        }
+      })
+    }
+
+    const handleTechnology = (item) => {
+      jumpTo({
+        url: '/pages/business/project/list/technology',
+        params: {
+          id: item.id,
+        }
+      })
+    }
+
+    const handleConstruction = (item) => {
+      jumpTo({
+        url: '/pages/business/project/list/construction',
+        params: {
+          id: item.id,
+        }
+      })
+    }
+
+    const handleUndeveloped = (item) => {
+      uni.showToast({
+        title: '该功能暂未上线，请去pc端操作...',
+        icon: 'none',
+        duration: 2000
+      });
+    }
+
     onMounted( () => {
       loading.value = true;
       getData();
@@ -300,6 +350,10 @@ export default defineComponent({
       handleSupport,
       handleBudgetChecklist,
       handleDelete,
+      handleContract,
+      handleTechnology,
+      handleConstruction,
+      handleUndeveloped,
     };
   },
 });
