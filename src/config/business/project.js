@@ -17,12 +17,12 @@ const projectConfig = {
 		return status === 2 || status === 4;
 	},
 	// 是否可以进行技术协议上传
-	canTechnology: (status) => {
-		return status === 5 || status === 7;
+	canTechnology: (status, record) => {
+		return status >= 2 && record.canTechnology;
 	},
 	// 是否可以进行施工转接上传
 	canConstruction: (status) => {
-		return status === 8 || status === 10;
+		return status === 5 || status === 8 || status === 10;
 	},
 	// 是否可以进行物料申请
 	canMaterialApply: (status) => {
@@ -40,7 +40,10 @@ const projectConfig = {
 	canConstructionAcceptance: (status) => {
 		return status >= 12;
 	},
-
+	// 是否可以进行预算清单
+	canSettlement: (status, financeSettlementEnd, settlementStatus) => {
+		return (status > 11 && financeSettlementEnd === 1 && (settlementStatus === 0 || settlementStatus === 2));
+	},
 };
 
 export default projectConfig;
