@@ -159,6 +159,24 @@
           }
         },
         {
+          "path": "pages/business/project/list/contract",
+          "style": {
+            "navigationBarTitleText": "项目列表 - 销售合同上传"
+          }
+        },
+        {
+          "path": "pages/business/project/list/technology",
+          "style": {
+            "navigationBarTitleText": "项目列表 - 技术协议上传"
+          }
+        },
+        {
+          "path": "pages/business/project/list/construction",
+          "style": {
+            "navigationBarTitleText": "项目列表 - 施工转接上传"
+          }
+        },
+        {
           "path": "pages/business/project/list/support/index",
           "style": {
             "navigationBarTitleText": "项目列表 - 技术支持 - 列表"
