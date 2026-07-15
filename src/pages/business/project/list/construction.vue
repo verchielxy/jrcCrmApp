@@ -88,7 +88,7 @@ export default defineComponent({
           name: 'workQuality',
           list: proxy.$constant.BUSINESS.PROJECT.QUALITY,
           rule: [
-            { required: true, message: '这里需要填写', trigger: ['blur', 'change'], type: 'string' },
+            { required: true, message: '这里需要填写', trigger: ['blur', 'change'], type: 'number' },
           ],
         },
         {
